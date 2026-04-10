@@ -1,8 +1,15 @@
 package com.example.java_royal.controllers;
 
 import com.example.java_royal.session.SessionManager;
+import com.example.java_royal.session.UserSession;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class HomeController {
     @FXML
@@ -10,10 +17,36 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        String username = SessionManager.getInstance().getCurrentUser() == null
-                ? "Utilisateur"
-                : SessionManager.getInstance().getCurrentUser().getUsername();
+        refreshWelcomeLabel();
+    }
+
+    @FXML
+    private void handleOpenProfile() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/profile-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Profil");
+            stage.show();
+        } catch (IOException e) {
+            welcomeLabel.setText("Impossible d'ouvrir la page profil.");
+        }
+    }
+
+    private void refreshWelcomeLabel() {
+        String username = UserSession.getInstance().getUsername();
+
+        if (username == null || username.isBlank()) {
+            username = SessionManager.getInstance().getCurrentUser() == null
+                    ? "Utilisateur"
+                    : SessionManager.getInstance().getCurrentUser().getUsername();
+
+            if (SessionManager.getInstance().getCurrentUser() != null) {
+                UserSession.getInstance().setId(SessionManager.getInstance().getCurrentUser().getId());
+                UserSession.getInstance().setUsername(SessionManager.getInstance().getCurrentUser().getUsername());
+            }
+        }
+
         welcomeLabel.setText("Bonjour " + username);
     }
 }
-
