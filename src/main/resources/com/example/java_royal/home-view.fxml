@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="16.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.java_royal.controllers.HomeController">
+    <Label fx:id="welcomeLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+</VBox>
