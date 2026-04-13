@@ -42,7 +42,8 @@ public class HomeController {
             stage.setTitle("Memory - Clash Royale");
             stage.show();
         } catch (IOException e) {
-            welcomeLabel.setText("Impossible d'ouvrir le mode Memory.");
+            e.printStackTrace();
+            welcomeLabel.setText("Impossible d'ouvrir le mode Memory (erreur de chargement).\nVoir la console.");
         }
     }
 
