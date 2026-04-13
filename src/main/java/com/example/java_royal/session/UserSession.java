@@ -6,6 +6,8 @@ public final class UserSession {
     private long id;
     private String username;
     private String email;
+    private int currentLevel;
+    private int currentXp;
 
     private UserSession() {
     }
@@ -41,15 +43,35 @@ public final class UserSession {
         this.email = email;
     }
 
-    public void update(long id, String username, String email) {
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public int getCurrentXp() {
+        return currentXp;
+    }
+
+    public void setCurrentXp(int currentXp) {
+        this.currentXp = currentXp;
+    }
+
+    public void update(long id, String username, String email, int currentLevel, int currentXp) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.currentLevel = currentLevel;
+        this.currentXp = currentXp;
     }
 
     public void clear() {
         this.id = 0L;
         this.username = null;
         this.email = null;
+        this.currentLevel = 0;
+        this.currentXp = 0;
     }
 }
