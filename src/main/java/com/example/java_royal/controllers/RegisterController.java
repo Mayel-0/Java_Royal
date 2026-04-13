@@ -3,6 +3,7 @@ package com.example.java_royal.controllers;
 import com.example.java_royal.model.User;
 import com.example.java_royal.service.UserService;
 import com.example.java_royal.session.UserSession;
+import com.example.java_royal.config.DatabaseConnection;
 import org.mindrot.jbcrypt.BCrypt;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.example.java_royal.config.DatabaseConnection;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,7 +21,11 @@ import java.sql.SQLException;
 
 /**
  * Contrôleur pour la page d'inscription.
- * Après inscription, redirige vers la page d'introduction (level=1 par défaut).
+ * Après inscription réussie :
+ * - Crée un nouvel utilisateur avec level=1 et xp=0 par défaut
+ * - Récupère les données du nouvel utilisateur
+ * - Stocke les données en session utilisateur
+ * - Redirige vers la page d'introduction
  */
 public class RegisterController {
     @FXML

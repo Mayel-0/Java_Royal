@@ -1,5 +1,9 @@
 package com.example.java_royal.model;
 
+/**
+ * Modèle représentant un utilisateur avec toutes ses données.
+ * Inclut les informations de profil et les statistiques de jeu (niveau, XP).
+ */
 public class User {
     private final long id;
     private final String username;
@@ -9,6 +13,10 @@ public class User {
     private final int totalXp;
 
     public User(long id, String username, String email, int currentLevel, int currentXp, int totalXp) {
+    /**
+     * Constructeur complet pour créer un User avec toutes ses données
+     */
+    public User(long id, String username, String email, int currentLevel, int currentXp, int totalXp) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -16,6 +24,24 @@ public class User {
         this.currentXp = currentXp;
         this.totalXp = totalXp;
     }
+
+    /**
+     * Constructeur simplifié (pour compatibilité)
+     */
+    public User(long id, String username) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.currentLevel = currentLevel;
+        this.currentXp = currentXp;
+        this.totalXp = totalXp;
+        this.email = "";
+        this.currentLevel = 1;
+        this.currentXp = 0;
+        this.totalXp = 0;
+    }
+
+    // ==================== GETTERS ====================
 
     public long getId() {
         return id;
@@ -56,6 +82,67 @@ public class User {
         int threshold = getNextLevelThreshold();
         if (threshold <= 0) return 0;
         return Math.min(1.0, (double) currentXp / threshold);
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public int getCurrentXp() {
+        return currentXp;
+    }
+
+    public int getTotalXp() {
+        return totalXp;
+    }
+
+    // ==================== MÉTHODES DE CALCUL ====================
+
+    /**
+     * Calcule le seuil d'XP requis pour atteindre le niveau suivant
+     * Formule: Niveau × 100
+     *
+     * Exemples:
+     * - Level 1: Seuil = 100
+     * - Level 2: Seuil = 200
+     * - Level 3: Seuil = 300
+     */
+    public int getNextLevelThreshold() {
+        return currentLevel * 100;
+    }
+
+    /**
+     * Calcule le pourcentage de progression vers le niveau suivant
+     * Retourne une valeur entre 0.0 et 1.0
+     *
+     * Exemples:
+     * - 0 XP / 100 = 0.0 (0%)
+     * - 50 XP / 100 = 0.5 (50%)
+     * - 100 XP / 100 = 1.0 (100%)
+     */
+    public double getXpProgressPercentage() {
+        int threshold = getNextLevelThreshold();
+        if (threshold == 0) return 0.0;
+        return Math.min(1.0, (double) currentXp / threshold);
+    }
+
+    /**
+     * Retourne une représentation textuelle du User
+     */
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", currentLevel=" + currentLevel +
+                ", currentXp=" + currentXp +
+                ", totalXp=" + totalXp +
+                '}';
     }
 }
 

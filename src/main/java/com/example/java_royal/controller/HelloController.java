@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Contrôleur pour la page de connexion.
- * Utilise UserService pour authentifier l'utilisateur et charger ses données.
+ * Contrôleur pour la page de connexion (login).
+ * Utilise UserService pour authentifier et charge les données complètes de l'utilisateur.
  * Redirige vers Introduction si level=1, sinon vers Home.
  */
 public class HelloController {
@@ -40,33 +40,43 @@ public class HelloController {
         }
 
         try {
-            // Authentifie l'utilisateur via UserService (qui récupère aussi level et xp)
+            System.out.println("[HelloController] Tentative login avec: " + identifier);
+
+            // Authentifie via UserService (retourne User complet avec id, username, email, level, xp)
             User user = UserService.authenticate(identifier, password);
 
             if (user != null) {
-                // Stocke les données en session
-                UserSession session = UserSession.getInstance();
-                session.update(user.getId(), user.getUsername(), user.getEmail(),
-                              user.getCurrentLevel(), user.getCurrentXp());
+                System.out.println("[HelloController] ✅ Authentification réussie: " + user);
 
                 // Met à jour l'ancien SessionManager pour compatibilité
                 SessionManager.getInstance().setCurrentUser(user);
 
-                // Redirige vers Introduction si c'est le premier lancement (level=1)
-                // Sinon, redirige vers Home
+                // Met à jour UserSession avec TOUS les champs (id, username, email, level, xp)
+                UserSession session = UserSession.getInstance();
+                session.update(user.getId(), user.getUsername(), user.getEmail(),
+                              user.getCurrentLevel(), user.getCurrentXp());
+
+                System.out.println("[HelloController] UserSession mise à jour - ID: " + session.getId());
+
+                // Redirige selon le level
                 if (user.getCurrentLevel() == 1) {
+                    System.out.println("[HelloController] Level = 1, redirection vers Introduction");
                     goToIntroduction();
                 } else {
+                    System.out.println("[HelloController] Level > 1, redirection vers Home");
                     goToHome();
                 }
             } else {
                 messageLabel.setText("Identifiants invalides.");
+                System.err.println("[HelloController] ❌ Authentification échouée pour: " + identifier);
             }
 
         } catch (SQLException e) {
             messageLabel.setText("Erreur de connexion à la base de données: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     @FXML
     private void goToRegister() {
@@ -83,7 +93,7 @@ public class HelloController {
     }
 
     /**
-     * Navigue vers la page d'introduction (premier lancement)
+     * Navigue vers la page d'introduction (premier lancement, level=1)
      */
     private void goToIntroduction() {
         try {
@@ -94,13 +104,12 @@ public class HelloController {
             }
             Parent root = loader.load();
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.setTitle("Introduction");
             stage.show();
         } catch (IOException e) {
+            messageLabel.setText("Impossible d'ouvrir la page d'introduction.");
             e.printStackTrace();
-            messageLabel.setText("Impossible d'ouvrir la page d'introduction: " + e.getMessage());
         } catch (NullPointerException e) {
             messageLabel.setText("Erreur: Impossible de récupérer la fenêtre.");
         }
@@ -125,15 +134,15 @@ public class HelloController {
             Parent root = loader.load();
             System.out.println("[HelloController] home-view.fxml chargé avec succès!");
 
-            Scene scene = usernameField.getScene();
-            Stage stage = (Stage) scene.getWindow();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Accueil");
             stage.show();
         } catch (IOException e) {
             messageLabel.setText("Impossible d'ouvrir la page d'accueil.");
-            e.printStackTrace();
             System.err.println("[ERROR] IOException: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
+
