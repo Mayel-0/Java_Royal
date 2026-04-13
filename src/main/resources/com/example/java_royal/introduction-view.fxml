@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/21"
+            fx:controller="com.example.java_royal.controllers.IntroductionController"
+            style="-fx-background-color: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+
+    <!-- Centre : Contenu principal -->
+    <center>
+        <VBox alignment="CENTER" spacing="30" style="-fx-padding: 40;">
+            <!-- Titre -->
+            <Label text="JAVA ROYAL" alignment="CENTER"
+                   style="-fx-text-fill: #FFD700; -fx-font-size: 48; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);">
+                <font>
+                    <Font name="Arial" size="48"/>
+                </font>
+            </Label>
+
+            <!-- Texte d'introduction -->
+            <Label text="Bienvenue dans Java Royal !" alignment="CENTER"
+                   style="-fx-text-fill: #FFFFFF; -fx-font-size: 28; -fx-font-weight: bold;">
+                <font>
+                    <Font name="Arial" size="28"/>
+                </font>
+            </Label>
+
+            <!-- Description -->
+            <Label wrapText="true" alignment="CENTER"
+                   text="Gravissez les arènes en remportant des mini-jeux pour gagner de l'XP et débloquer de nouveaux mondes. &#10;Chaque victoire vous rapproche de la gloire ! ⚔️"
+                   style="-fx-text-fill: #CCCCCC; -fx-font-size: 16; -fx-line-spacing: 8;">
+                <font>
+                    <Font name="Arial" size="16"/>
+                </font>
+                <VBox.margin>
+                    <Insets left="20" right="20"/>
+                </VBox.margin>
+            </Label>
+
+            <!-- Bouton C'est parti! -->
+            <Button fx:id="startButton" text="C'est parti !" prefWidth="200" prefHeight="50"
+                    style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12px 30px; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"
+                    onAction="#goToHome"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>
+

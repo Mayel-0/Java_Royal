@@ -58,7 +58,10 @@ public class ProfileController {
 
         try {
             updateUser(session.getId(), newUsername, newEmail, newPassword);
-            session.update(session.getId(), newUsername, newEmail);
+            // Met à jour la session avec tous les paramètres requis
+            // Conserve le level et XP inchangés
+            session.update(session.getId(), newUsername, newEmail,
+                          session.getCurrentLevel(), session.getCurrentXp());
             showAlert(Alert.AlertType.INFORMATION, "Succes", "Profil mis a jour avec succes.");
             goBackHome();
         } catch (SQLException e) {

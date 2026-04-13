@@ -1,6 +1,7 @@
 package com.example.java_royal;
 
 import com.example.java_royal.config.DatabaseInitializer;
+import com.example.java_royal.util.ArenaImageCache;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +15,14 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         try {
+            // Initialise la base de données
             DatabaseInitializer.initialize();
+
+            // Initialise le cache des images d'arènes
+            System.out.println("[HelloApplication] Initialisation du cache des images...");
+            ArenaImageCache.initialize();
+            ArenaImageCache.printCachedImages();
+
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur base de donnees");
