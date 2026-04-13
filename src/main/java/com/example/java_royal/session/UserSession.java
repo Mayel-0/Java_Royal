@@ -11,10 +11,8 @@ public final class UserSession {
     private long id;
     private String username;
     private String email;
-    private int currentLevel;
-    private int currentXp;
-    private int currentLevel = 1;      // ← Initialiser à 1 (au lieu de 0)
-    private int currentXp = 0;          // ← Initialiser à 0
+    private int currentLevel = 1;
+    private int currentXp = 0;
 
     private UserSession() {
     }
@@ -65,23 +63,6 @@ public final class UserSession {
         this.email = email;
     }
 
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    public int getCurrentXp() {
-        return currentXp;
-    }
-
-    public void setCurrentXp(int currentXp) {
-        this.currentXp = currentXp;
-    }
-
-    public void update(long id, String username, String email, int currentLevel, int currentXp) {
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
     }
@@ -108,8 +89,6 @@ public final class UserSession {
         this.id = 0L;
         this.username = null;
         this.email = null;
-        this.currentLevel = 0;
-        this.currentXp = 0;
         this.currentLevel = 1;
         this.currentXp = 0;
     }
