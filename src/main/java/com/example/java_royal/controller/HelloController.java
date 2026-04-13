@@ -1,9 +1,8 @@
 package com.example.java_royal.controller;
 
-import com.example.java_royal.config.DatabaseConnection;
 import com.example.java_royal.model.User;
-import com.example.java_royal.session.SessionManager;
-import org.mindrot.jbcrypt.BCrypt;
+import com.example.java_royal.service.UserService;
+import com.example.java_royal.session.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,11 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Contrôleur pour la page de connexion (login).
+ * Utilise UserService pour authentifier et charge les données complètes de l'utilisateur.
+ */
 public class HelloController {
     @FXML
     private TextField usernameField;
@@ -37,30 +37,38 @@ public class HelloController {
             return;
         }
 
-        String sql = "SELECT id, username, password FROM users WHERE username = ? OR email = ?";
+        try {
+            System.out.println("[HelloController] Tentative login avec: " + identifier);
 
-        try (Connection connection = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, identifier);
-            statement.setString(2, identifier);
+            // Authentifie via UserService (retourne User complet avec id, username, email, level, xp)
+            User user = UserService.authenticate(identifier, password);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String hashedPassword = resultSet.getString("password");
-                    if (BCrypt.checkpw(password, hashedPassword)) {
-                        SessionManager.getInstance().setCurrentUser(
-                                new User(resultSet.getLong("id"), resultSet.getString("username"))
-                        );
-                        goToHome();
-                    } else {
-                        messageLabel.setText("Identifiants invalides.");
-                    }
+            if (user != null) {
+                System.out.println("[HelloController] ✅ Authentification réussie: " + user);
+
+                // Met à jour UserSession avec TOUS les champs (id, username, email, level, xp)
+                UserSession session = UserSession.getInstance();
+                session.update(user.getId(), user.getUsername(), user.getEmail(),
+                              user.getCurrentLevel(), user.getCurrentXp());
+
+                System.out.println("[HelloController] UserSession mise à jour - ID: " + session.getId());
+
+                // Redirige selon le level
+                if (user.getCurrentLevel() == 1) {
+                    System.out.println("[HelloController] Level = 1, redirection vers Introduction");
+                    goToIntroduction();
                 } else {
-                    messageLabel.setText("Identifiants invalides.");
+                    System.out.println("[HelloController] Level > 1, redirection vers Home");
+                    goToHome();
                 }
+            } else {
+                messageLabel.setText("Identifiants invalides.");
+                System.err.println("[HelloController] ❌ Authentification échouée pour: " + identifier);
             }
+
         } catch (SQLException e) {
             messageLabel.setText("Erreur de connexion à la base de données: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -78,17 +86,38 @@ public class HelloController {
         }
     }
 
+    /**
+     * Navigue vers la page d'introduction (premier lancement, level=1)
+     */
+    private void goToIntroduction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/introduction-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Introduction");
+            stage.show();
+        } catch (IOException e) {
+            messageLabel.setText("Impossible d'ouvrir la page d'introduction.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Navigue vers l'accueil (lobby)
+     */
     private void goToHome() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/home-view.fxml"));
             Parent root = loader.load();
-            Scene scene = usernameField.getScene();
-            Stage stage = (Stage) scene.getWindow();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Accueil");
             stage.show();
         } catch (IOException e) {
             messageLabel.setText("Impossible d'ouvrir la page d'accueil.");
+            e.printStackTrace();
         }
     }
 }
+
