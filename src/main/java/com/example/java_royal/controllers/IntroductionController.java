@@ -33,13 +33,12 @@ public class IntroductionController {
             loader.setLocation(getClass().getResource("/com/example/java_royal/home-view.fxml"));
 
             if (loader.getLocation() == null) {
-                System.err.println("[ERROR] home-view.fxml not found in resources!");
+                System.err.println("[IntroductionController] ❌ Fichier home-view.fxml introuvable!");
                 return;
             }
 
-            System.out.println("[IntroductionController] Fichier trouvé: " + loader.getLocation());
             Parent root = loader.load();
-            System.out.println("[IntroductionController] Fichier chargé avec succès!");
+            System.out.println("[IntroductionController] ✅ Fichier chargé avec succès!");
 
             Stage stage = (Stage) startButton.getScene().getWindow();
             Scene newScene = new Scene(root);
@@ -52,7 +51,7 @@ public class IntroductionController {
             fadeOut.setOnFinished(event -> {
                 stage.setScene(newScene);
                 stage.setTitle("Accueil");
-                System.out.println("[IntroductionController] Scène changée vers HomeView");
+                System.out.println("[IntroductionController] ✅ Scène changée vers HomeView");
 
                 FadeTransition fadeIn = new FadeTransition(Duration.millis(500), root);
                 fadeIn.setFromValue(0.0);
@@ -64,13 +63,13 @@ public class IntroductionController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("[ERROR] IOException - Impossible de charger home-view.fxml: " + e.getMessage());
+            System.err.println("[IntroductionController] ❌ IOException: " + e.getMessage());
         } catch (NullPointerException e) {
+            System.err.println("[IntroductionController] ❌ NullPointerException: " + e.getMessage());
             e.printStackTrace();
-            System.err.println("[ERROR] NullPointerException - Erreur: Impossible de récupérer la fenêtre ou le bouton.");
         } catch (Exception e) {
+            System.err.println("[IntroductionController] ❌ Exception générale: " + e.getMessage());
             e.printStackTrace();
-            System.err.println("[ERROR] Exception générale: " + e.getMessage());
         }
     }
 }
