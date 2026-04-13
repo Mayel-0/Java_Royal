@@ -33,6 +33,19 @@ public class HomeController {
         }
     }
 
+    @FXML
+    private void handleOpenMemory() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/memory-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root, 980, 760));
+            stage.setTitle("Memory - Clash Royale");
+            stage.show();
+        } catch (IOException e) {
+            welcomeLabel.setText("Impossible d'ouvrir le mode Memory.");
+        }
+    }
+
     private void refreshWelcomeLabel() {
         String username = UserSession.getInstance().getUsername();
 
