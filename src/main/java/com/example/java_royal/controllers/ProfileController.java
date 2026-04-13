@@ -58,7 +58,8 @@ public class ProfileController {
 
         try {
             updateUser(session.getId(), newUsername, newEmail, newPassword);
-            // Maintient les données de progression (level, xp) inchangées
+            // Met à jour la session avec tous les paramètres requis
+            // Conserve le level et XP inchangés
             session.update(session.getId(), newUsername, newEmail,
                           session.getCurrentLevel(), session.getCurrentXp());
             showAlert(Alert.AlertType.INFORMATION, "Succes", "Profil mis a jour avec succes.");
