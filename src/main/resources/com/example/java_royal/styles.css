@@ -1,0 +1,166 @@
+/* Java Royal - Theme inspired by Clash Royale */
+
+/* Couleurs principales */
+.root {
+    -fx-font-family: "Arial", sans-serif;
+}
+
+/* Labels avec bordure dorée */
+.gold-label {
+    -fx-text-fill: #FFD700;
+    -fx-font-weight: bold;
+    -fx-border-color: #FFD700;
+    -fx-border-width: 2;
+    -fx-padding: 8px 12px;
+    -fx-effect: dropshadow(gaussian, #000000, 3, 0.5, 0, 2);
+}
+
+/* Boutons principaux - style Clash Royale */
+.button-primary {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12px 30px;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button-primary:hover {
+    -fx-background-color: linear-gradient(135deg, #FFE81F 0%, #FFB300 100%);
+    -fx-effect: dropshadow(gaussian, #000000, 8, 0.6, 0, 3);
+}
+
+.button-primary:pressed {
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* Boutons secondaires - vert */
+.button-success {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12px 30px;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button-success:hover {
+    -fx-background-color: linear-gradient(135deg, #2dd35f 0%, #228f34 100%);
+}
+
+/* Boutons secondaires - gris */
+.button-secondary {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12px 30px;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button-secondary:hover {
+    -fx-background-color: linear-gradient(135deg, #7d8790 0%, #6c7379 100%);
+}
+
+/* Boutons danger - rouge */
+.button-danger {
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 12px 30px;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+    -fx-cursor: hand;
+}
+
+.button-danger:hover {
+    -fx-background-color: linear-gradient(135deg, #e44855 0%, #d63447 100%);
+}
+
+/* ProgressBar avec accent doré */
+.progress-bar {
+    -fx-accent: #FFD700;
+    -fx-control-inner-background: #333333;
+    -fx-padding: 2;
+}
+
+/* Badge de niveau - style Clash Royale */
+.level-badge {
+    -fx-border-color: #FFD700;
+    -fx-border-width: 3;
+    -fx-border-radius: 50;
+    -fx-background-color: rgba(255, 215, 0, 0.15);
+    -fx-padding: 15px 20px;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+}
+
+.level-badge-text {
+    -fx-text-fill: #FFD700;
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+/* Barre supérieure */
+.header-bar {
+    -fx-background-color: linear-gradient(180deg, #1f6feb 0%, #1a4d99 100%);
+    -fx-border-color: #FFD700;
+    -fx-border-width: 0 0 3 0;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, #000000, 3, 0.5, 0, 2);
+}
+
+/* Barre inférieure */
+.footer-bar {
+    -fx-background-color: linear-gradient(0deg, #1f6feb 0%, #1a4d99 100%);
+    -fx-border-color: #FFD700;
+    -fx-border-width: 3 0 0 0;
+    -fx-padding: 15px;
+}
+
+/* Fond principal */
+.main-bg {
+    -fx-background-color: #0d1117;
+}
+
+/* Textes personnalisés */
+.text-gold {
+    -fx-text-fill: #FFD700;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #000000, 3, 0.5, 0, 2);
+}
+
+.text-white {
+    -fx-text-fill: #FFFFFF;
+}
+
+.text-light-gray {
+    -fx-text-fill: #CCCCCC;
+}
+
+.text-secondary {
+    -fx-text-fill: #AAAAAA;
+}
+
+/* Card style */
+.card {
+    -fx-border-color: #FFD700;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-color: rgba(255, 215, 0, 0.1);
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);
+}
+

@@ -3,24 +3,79 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.java_royal.controllers.HomeController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/21"
+            fx:controller="com.example.java_royal.controllers.HomeController"
+            style="-fx-background-color: #0d1117;">
+
+    <!-- TOP : Barre d'information avec bienvenue, niveau et XP -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="8.0" BorderPane.alignment="CENTER_LEFT">
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-            </padding>
-            <Button text="Modifier Profil" onAction="#handleOpenProfile"/>
-        </HBox>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: linear-gradient(180deg, #1f6feb 0%, #1a4d99 100%); -fx-border-color: #FFD700; -fx-border-width: 0 0 3 0;">
+
+            <!-- Message de bienvenue -->
+            <Label fx:id="welcomeLabel" text="Bienvenue [Username] !"
+                   style="-fx-text-fill: #FFD700; -fx-font-size: 24; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 3, 0.5, 0, 2);">
+                <font>
+                    <Font name="Arial" size="24"/>
+                </font>
+            </Label>
+
+            <!-- Conteneur pour Niveau et XP -->
+            <HBox spacing="30" alignment="CENTER_LEFT">
+
+                <!-- Badge Niveau -->
+                <VBox alignment="CENTER" spacing="5"
+                      style="-fx-border-color: #FFD700; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-color: rgba(255, 215, 0, 0.1); -fx-padding: 10 20;">
+                    <Label text="Niveau" style="-fx-text-fill: #CCCCCC; -fx-font-size: 12;"/>
+                    <Label fx:id="levelBadge" text="1"
+                           style="-fx-text-fill: #FFD700; -fx-font-size: 28; -fx-font-weight: bold;"/>
+                </VBox>
+
+                <!-- Barre de progression XP -->
+                <VBox spacing="5" HBox.hgrow="ALWAYS" maxWidth="400">
+                    <Label text="Progression XP" style="-fx-text-fill: #CCCCCC; -fx-font-size: 12;"/>
+                    <ProgressBar fx:id="xpProgressBar" prefHeight="20"
+                                 style="-fx-accent: #FFD700; -fx-control-inner-background: #333333; -fx-padding: 2;"/>
+                    <Label fx:id="xpLabel" text="0 / 100 XP"
+                           style="-fx-text-fill: #AAAAAA; -fx-font-size: 11;"/>
+                </VBox>
+            </HBox>
+        </VBox>
     </top>
 
+    <!-- CENTRE : Fond d'arène dynamique -->
     <center>
-        <StackPane>
-            <Label fx:id="welcomeLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-        </StackPane>
+        <VBox alignment="CENTER" style="-fx-background-color: #0d1117;">
+            <!-- ImageView pour le fond d'arène -->
+            <ImageView fx:id="arenaImageView" fitWidth="600" fitHeight="400" preserveRatio="true"/>
+
+            <!-- Texte placeholder si pas d'image -->
+            <Label fx:id="arenaPlaceholder" text="Arène 1 - Entraînement"
+                   style="-fx-text-fill: #FFD700; -fx-font-size: 32; -fx-font-weight: bold;"/>
+        </VBox>
     </center>
+
+    <!-- BOTTOM : Boutons d'action -->
+    <bottom>
+        <HBox spacing="15" alignment="CENTER" style="-fx-padding: 20; -fx-background-color: linear-gradient(0deg, #1f6feb 0%, #1a4d99 100%); -fx-border-color: #FFD700; -fx-border-width: 3 0 0 0;">
+
+            <Button text="Démarrer un Mini-jeu" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Profil" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Quitter" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #dc3545 0%, #c82333 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"
+                    onAction="#handleLogout"/>
+        </HBox>
+    </bottom>
+
 </BorderPane>
+
