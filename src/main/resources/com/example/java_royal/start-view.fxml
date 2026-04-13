@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="14.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.java_royal.controller.StartController">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+    </padding>
+    <Label text="Bienvenue sur Java Royal" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Button text="Se connecter" onAction="#goToLogin"/>
+    <Button text="S'inscrire" onAction="#goToRegister"/>
+</VBox>
+

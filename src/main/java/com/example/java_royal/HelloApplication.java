@@ -1,18 +1,32 @@
 package com.example.java_royal;
 
+import com.example.java_royal.config.DatabaseInitializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        try {
+            DatabaseInitializer.initialize();
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur base de donnees");
+            alert.setHeaderText("Initialisation de la base impossible");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            return;
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/java_royal/start-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 420, 260);
+        stage.setTitle("Java Royal");
         stage.setScene(scene);
         stage.show();
     }
