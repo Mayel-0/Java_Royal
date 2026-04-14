@@ -36,3 +36,17 @@
     -fx-border-color: #ff7c7c;
 }
 
+.memory-victory-overlay {
+    -fx-background-color: rgba(13, 20, 44, 0.86);
+    -fx-background-radius: 16;
+    -fx-border-color: #ffe28a;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-padding: 18 26 18 26;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+

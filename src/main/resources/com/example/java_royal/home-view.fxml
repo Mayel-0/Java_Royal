@@ -71,6 +71,9 @@
             <Button text="True or False" prefWidth="180" prefHeight="45" onAction="#handleOpenTrueOrFalse"
                     style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
 
+            <Button text="Memory" prefWidth="180" prefHeight="45" onAction="#handleOpenMemory"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
             <HBox HBox.hgrow="ALWAYS" />
 
             <Button text="Classement" prefWidth="180" prefHeight="45" onAction="#handleLeaderboard"
