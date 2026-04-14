@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service métier pour gérer les opérations utilisateur.
@@ -181,6 +183,66 @@ public class UserService {
 
             statement.executeUpdate();
             System.out.println("[UserService] ✅ Level mis à jour pour user " + userId);
+        }
+    }
+
+    /**
+     * Récupère les meilleurs joueurs triés par XP totale (descendant)
+     *
+     * @param limit Nombre maximum de joueurs à retourner
+     * @return Liste des joueurs ordonnés par total_xp DESC
+     * @throws SQLException Si erreur base de données
+     */
+    public static List<LeaderboardEntry> getTopPlayers(int limit) throws SQLException {
+        List<LeaderboardEntry> topPlayers = new ArrayList<>();
+        String sql = "SELECT username, current_level, total_xp FROM users ORDER BY total_xp DESC LIMIT ?";
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, limit);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    LeaderboardEntry entry = new LeaderboardEntry(
+                        resultSet.getString("username"),
+                        resultSet.getInt("current_level"),
+                        resultSet.getInt("total_xp")
+                    );
+                    topPlayers.add(entry);
+                }
+            }
+
+            System.out.println("[UserService] ✅ " + topPlayers.size() + " joueurs récupérés du classement");
+        }
+
+        return topPlayers;
+    }
+
+    /**
+     * Classe interne représentant une entrée du leaderboard
+     */
+    public static class LeaderboardEntry {
+        private final String username;
+        private final int level;
+        private final int totalXp;
+
+        public LeaderboardEntry(String username, int level, int totalXp) {
+            this.username = username;
+            this.level = level;
+            this.totalXp = totalXp;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public int getTotalXp() {
+            return totalXp;
         }
     }
 }
