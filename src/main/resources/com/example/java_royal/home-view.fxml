@@ -17,6 +17,45 @@
             <Button text="Jouer au Memory" onAction="#handleOpenMemory"/>
             <Button text="Modifier Profil" onAction="#handleOpenProfile"/>
         </HBox>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: rgba(31, 111, 235, 0.95); -fx-border-color: #FFD700; -fx-border-width: 0 0 3 0; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, 3);">
+
+            <!-- Message de bienvenue -->
+            <Label fx:id="welcomeLabel" text="Bienvenue [Username] !"
+                   style="-fx-text-fill: #FFFFFF; -fx-font-size: 24; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 5, 0.8, 0, 2);">
+                <font>
+                    <Font name="Arial" size="24"/>
+                </font>
+            </Label>
+
+            <!-- Conteneur pour Niveau et XP -->
+            <HBox spacing="30" alignment="CENTER_LEFT">
+
+                <!-- Badge Niveau -->
+                <VBox alignment="CENTER" spacing="5"
+                      style="-fx-border-color: #FFD700; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-color: rgba(255, 215, 0, 0.1); -fx-padding: 10 20;">
+                    <Label text="Niveau" style="-fx-text-fill: #CCCCCC; -fx-font-size: 12;"/>
+                    <Label fx:id="levelBadge" text="1"
+                           style="-fx-text-fill: #FFD700; -fx-font-size: 28; -fx-font-weight: bold;"/>
+                </VBox>
+
+                <!-- Barre de progression XP -->
+                <VBox spacing="5" HBox.hgrow="ALWAYS" maxWidth="400">
+                    <Label text="Progression XP" style="-fx-text-fill: #CCCCCC; -fx-font-size: 12;"/>
+                    <ProgressBar fx:id="xpProgressBar" prefHeight="20"
+                                 style="-fx-accent: #FFD700; -fx-control-inner-background: #333333; -fx-padding: 2;"/>
+                    <Label fx:id="xpLabel" text="0 / 100 XP"
+                           style="-fx-text-fill: #AAAAAA; -fx-font-size: 11;"/>
+                </VBox>
+            </HBox>
+        </VBox>
+        <HBox alignment="CENTER_LEFT" spacing="8.0" BorderPane.alignment="CENTER_LEFT">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+            <Button text="Jouer au Memory" onAction="#handleOpenMemory"/>
+            <Button text="Jouer au True or False" onAction="#handleOpenTrueFalse"/>
+            <Button text="Modifier Profil" onAction="#handleOpenProfile"/>
+        </HBox>
     </top>
 
     <center>

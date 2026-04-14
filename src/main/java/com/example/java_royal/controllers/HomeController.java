@@ -60,6 +60,35 @@ public class HomeController {
                 UserSession.getInstance().setUsername(SessionManager.getInstance().getCurrentUser().getUsername());
             }
         }
+}
+
+    @FXML
+    private void handleOpenTrueFalse() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/true-false-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root, 980, 700));
+            stage.setTitle("True or False - Clash Royale");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            welcomeLabel.setText("Impossible d'ouvrir True or False.\nVoir la console.");
+        }
+    }
+
+    private void refreshWelcomeLabel() {
+        String username = UserSession.getInstance().getUsername();
+
+        if (username == null || username.isBlank()) {
+            username = SessionManager.getInstance().getCurrentUser() == null
+                    ? "Utilisateur"
+                    : SessionManager.getInstance().getCurrentUser().getUsername();
+
+            if (SessionManager.getInstance().getCurrentUser() != null) {
+                UserSession.getInstance().setId(SessionManager.getInstance().getCurrentUser().getId());
+                UserSession.getInstance().setUsername(SessionManager.getInstance().getCurrentUser().getUsername());
+            }
+        }
 
         welcomeLabel.setText("Bonjour " + username);
     }

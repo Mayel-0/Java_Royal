@@ -2,6 +2,8 @@ package com.example.java_royal.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,7 +21,7 @@ public final class DatabaseConnection {
         this.dbType = valueOrDefault(dotenv.get("DB_TYPE"), "sqlite").toLowerCase();
 
         if ("sqlite".equals(dbType)) {
-            String sqlitePath = valueOrDefault(dotenv.get("DB_SQLITE_PATH"), "java_royal.db");
+            String sqlitePath = valueOrDefault(dotenv.get("DB_SQLITE_PATH"), resolveSqlitePathFromResources());
             String normalizedPath = Path.of(sqlitePath).toAbsolutePath().normalize().toString();
             this.url = "jdbc:sqlite:" + normalizedPath;
             this.user = null;
@@ -50,5 +52,17 @@ public final class DatabaseConnection {
 
     private static String valueOrDefault(String value, String fallback) {
         return (value == null || value.isBlank()) ? fallback : value;
+    }
+
+    private static String resolveSqlitePathFromResources() {
+        URL resource = DatabaseConnection.class.getResource("/java_royal.db");
+        if (resource != null && "file".equalsIgnoreCase(resource.getProtocol())) {
+            try {
+                return Path.of(resource.toURI()).toString();
+            } catch (URISyntaxException ignored) {
+                // Fallback local workspace path below.
+            }
+        }
+        return "java_royal.db";
     }
 }
