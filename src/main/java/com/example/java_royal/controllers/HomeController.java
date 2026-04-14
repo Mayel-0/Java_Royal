@@ -46,6 +46,8 @@ public class HomeController {
     @FXML
     private Label arenaPlaceholder;
 
+    private static final String SUDOKU_VIEW = "/com/example/java_royal/sudoku-view.fxml";
+
     /**
      * Initialisation du contrôleur appelée automatiquement après le chargement du FXML
      */
@@ -211,5 +213,20 @@ public class HomeController {
             e.printStackTrace();
         }
     }
-}
 
+    @FXML
+    private void handleSudoku() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(SUDOKU_VIEW));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Sudoku");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("[HomeController] ❌ Erreur lors du chargement du Sudoku: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}

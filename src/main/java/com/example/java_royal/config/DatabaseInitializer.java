@@ -22,11 +22,23 @@ public final class DatabaseInitializer {
                 )
                 """;
 
+        String createSudokuScoresTable = """
+                CREATE TABLE IF NOT EXISTS sudoku_scores (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  user_id INTEGER NOT NULL,
+                  score INTEGER NOT NULL,
+                  time_seconds INTEGER NOT NULL,
+                  moves INTEGER NOT NULL,
+                  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                  FOREIGN KEY (user_id) REFERENCES users(id)
+                )
+                """;
+
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("PRAGMA foreign_keys = ON");
             statement.execute(createUsersTable);
+            statement.execute(createSudokuScoresTable);
         }
     }
 }
-

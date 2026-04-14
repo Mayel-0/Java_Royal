@@ -1,0 +1,71 @@
+.sudoku-header {
+    -fx-padding: 16;
+    -fx-background-color: linear-gradient(to bottom, #1e6bd6, #173f8a);
+    -fx-border-color: #f5c842;
+    -fx-border-width: 0 0 3 0;
+}
+
+.title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 4, 0.4, 0, 2);
+}
+
+.info-label {
+    -fx-text-fill: #f5f5f5;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.sudoku-grid {
+    -fx-padding: 20;
+    -fx-background-color: rgba(16, 30, 66, 0.95);
+    -fx-border-color: #f5c842;
+    -fx-border-width: 3;
+    -fx-border-radius: 6;
+}
+
+.sudoku-cell-wrapper {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-padding: 2;
+}
+
+.sudoku-cell-wrapper-alt {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+}
+
+.sudoku-cell {
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-text-fill: #000000;
+    -fx-background-image: url("../images/elixir-clash-royal.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 1;
+}
+
+.sudoku-cell-fixed {
+    -fx-text-fill: #ffd54f;
+    -fx-font-weight: bold;
+}
+
+.sudoku-cell-error {
+    -fx-border-color: #ff4d4d;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(255,77,77,0.7), 6, 0.5, 0, 0);
+}
+
+.action-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 4, 0.5, 0, 2);
+}
