@@ -27,9 +27,9 @@
             <padding>
                 <Insets bottom="20.0" />
             </padding>
-            <Label text="Ajouter une nouvelle question" />
-            <TextField fx:id="newQuestionField" promptText="Texte de la question" />
-            <CheckBox fx:id="newQuestionAnswer" text="Réponse correcte (cocher pour Vrai)" />
+            <Label styleClass="text-truefalse" text="Ajouter une nouvelle question" />
+            <TextField  styleClass="input-truefalse" fx:id="newQuestionField" promptText="Texte de la question" />
+            <CheckBox styleClass="text-truefalse"  fx:id="newQuestionAnswer" text="Réponse correcte (cocher pour Vrai)" />
             <Button onAction="#addQuestion" text="Ajouter" />
         </VBox>
     </bottom>

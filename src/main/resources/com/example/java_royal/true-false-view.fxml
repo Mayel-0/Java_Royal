@@ -44,8 +44,8 @@
             </HBox>
         </bottom>
         <left>
-            <VBox alignment="CENTER" style="-fx-padding: 20;">
-                <Button text="Retour" onAction="#handleBackToHome" styleClass="button-secondary"/>
+            <VBox alignment="CENTER" style="-fx-padding: 20; background-color: red ; color: black;">
+                <Button text="Quitter" onAction="#handleBackToHome" styleClass="button-secondary"/>
             </VBox>
         </left>
     </BorderPane>

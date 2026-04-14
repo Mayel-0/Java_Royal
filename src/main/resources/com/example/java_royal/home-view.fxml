@@ -74,13 +74,13 @@
             <HBox HBox.hgrow="ALWAYS" />
 
             <Button text="Classement" prefWidth="180" prefHeight="45" onAction="#handleLeaderboard"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-text-fill: #333333; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: white; -fx-text-fill: #333333; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
 
             <Button text="Profil" prefWidth="180" prefHeight="45" onAction="#handleOpenProfile"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: white; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
 
             <Button text="Quitter" prefWidth="180" prefHeight="45" onAction="#handleLogout"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #dc3545 0%, #c82333 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: red; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
         </HBox>
     </bottom>
 
