@@ -5,6 +5,8 @@ import com.javaroyal.games.hangman.HangmanGameEngine;
 import com.javaroyal.games.hangman.HangmanWord;
 import com.javaroyal.games.hangman.HangmanWordBank;
 import com.example.java_royal.service.HangmanScoreService;
+import com.example.java_royal.service.UserService;
+import com.example.java_royal.session.UserSession;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -104,6 +106,8 @@ public class HangmanController {
 
     private HangmanDifficulty selectedDifficulty;
     private HangmanGameEngine engine;
+
+    private static final int XP_PER_WIN = 100;
 
     @FXML
     public void initialize() {
@@ -267,6 +271,7 @@ public class HangmanController {
             totalScore += engine.getScore();
             bestScore = Math.max(bestScore, totalScore);
             bestCombo = Math.max(bestCombo, engine.getCombo());
+            awardXpOnWin();
         }
 
         scoreLabel.setText("Score total: " + totalScore);
@@ -274,6 +279,30 @@ public class HangmanController {
         comboLabel.setText("Combo: " + engine.getCombo());
 
         saveHangmanScore();
+    }
+
+    private void awardXpOnWin() {
+        try {
+            UserSession session = UserSession.getInstance();
+            int currentXp = session.getCurrentXp();
+            int currentLevel = session.getCurrentLevel();
+            int threshold = currentLevel * 100;
+
+            int updatedXp = currentXp + XP_PER_WIN;
+            int updatedLevel = currentLevel;
+
+            while (updatedXp >= threshold) {
+                updatedXp -= threshold;
+                updatedLevel++;
+                threshold = updatedLevel * 100;
+            }
+
+            UserService.updateUserXp(session.getId(), updatedXp, updatedLevel);
+            session.setCurrentLevel(updatedLevel);
+            session.setCurrentXp(updatedXp);
+        } catch (Exception e) {
+            statusLabel.setText("Impossible de mettre a jour l'XP.");
+        }
     }
 
     private void updateHud() {
