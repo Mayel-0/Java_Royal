@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -29,6 +31,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -119,7 +122,6 @@ public class HangmanController {
         configureDifficultyChoice();
         createKeyboard();
         loadArenaImage();
-        applyBackgroundImage();
         startNewRound();
 
         Platform.runLater(this::bindPhysicalKeyboard);
