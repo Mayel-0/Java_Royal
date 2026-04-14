@@ -91,6 +91,10 @@ public class HangmanController {
     private Button hintButton;
 
     @FXML
+    private ImageView arenaImageView;
+
+    @FXML
+    private Region dangerOverlay;
     private Canvas hangmanCanvas;
 
     private final Random random = new Random();
@@ -114,6 +118,7 @@ public class HangmanController {
         applyCss();
         configureDifficultyChoice();
         createKeyboard();
+        loadArenaImage();
         applyBackgroundImage();
         startNewRound();
 
@@ -321,6 +326,9 @@ public class HangmanController {
 
         double progress = (double) (maxLives - remainingLives) / maxLives;
         hangmanProgressBar.setProgress(progress);
+        if (dangerOverlay != null) {
+            dangerOverlay.setOpacity(Math.min(0.72, progress * 0.92));
+        }
         drawHangman(progress);
 
         comboLabel.setText("Combo: " + engine.getCombo());
@@ -416,20 +424,23 @@ public class HangmanController {
         }
     }
 
-
-    private void applyBackgroundImage() {
-        Path backgroundPath = Paths.get("assets", "pendu", "pendu-background.png");
-        if (!Files.exists(backgroundPath)) {
+    private void loadArenaImage() {
+        Path arenaPath = Paths.get("assets", "pendu", "pendu-all.png");
+        if (!Files.exists(arenaPath)) {
+            statusLabel.setText("Image pendu-all.png introuvable.");
             return;
         }
 
-        String uri = backgroundPath.toAbsolutePath().toUri().toString();
-        rootPane.setStyle(
-                "-fx-background-image: url('" + uri + "');"
-                        + "-fx-background-size: cover;"
-                        + "-fx-background-position: center center;"
-                        + "-fx-background-repeat: no-repeat;"
-        );
+        try (InputStream inputStream = Files.newInputStream(arenaPath)) {
+            Image image = new Image(inputStream);
+            arenaImageView.setImage(image);
+        } catch (IOException exception) {
+            statusLabel.setText("Erreur lors du chargement de pendu-all.png.");
+        }
+
+        if (dangerOverlay != null) {
+            dangerOverlay.setOpacity(0.0);
+        }
     }
 
     @FXML
