@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
@@ -63,7 +63,7 @@
 
             <VBox spacing="10" styleClass="panel side-panel" alignment="TOP_CENTER">
                 <Label text="Progression du pendu" styleClass="section-label"/>
-                <ImageView fx:id="hangmanImageView" fitHeight="260" fitWidth="260" preserveRatio="true"/>
+                <Canvas fx:id="hangmanCanvas" width="260" height="260"/>
                 <ProgressBar fx:id="hangmanProgressBar" progress="0.0" prefWidth="250"/>
 
                 <Button fx:id="hintButton" text="Utiliser un indice" onAction="#handleUseHint" styleClass="action-btn"/>

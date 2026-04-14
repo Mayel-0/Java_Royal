@@ -1,9 +1,10 @@
 package com.example.java_royal.controllers;
 
-import com.example.java_royal.pendu.HangmanDifficulty;
-import com.example.java_royal.pendu.HangmanGameEngine;
-import com.example.java_royal.pendu.HangmanWord;
-import com.example.java_royal.pendu.HangmanWordBank;
+import com.javaroyal.games.hangman.HangmanDifficulty;
+import com.javaroyal.games.hangman.HangmanGameEngine;
+import com.javaroyal.games.hangman.HangmanWord;
+import com.javaroyal.games.hangman.HangmanWordBank;
+import com.example.java_royal.service.HangmanScoreService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -11,21 +12,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -88,7 +89,7 @@ public class HangmanController {
     private Button hintButton;
 
     @FXML
-    private ImageView hangmanImageView;
+    private Canvas hangmanCanvas;
 
     private final Random random = new Random();
     private final HangmanWordBank wordBank = new HangmanWordBank();
@@ -109,7 +110,6 @@ public class HangmanController {
         applyCss();
         configureDifficultyChoice();
         createKeyboard();
-        loadHangmanImage();
         applyBackgroundImage();
         startNewRound();
 
@@ -272,6 +272,8 @@ public class HangmanController {
         scoreLabel.setText("Score total: " + totalScore);
         bestScoreLabel.setText("Meilleur score: " + bestScore);
         comboLabel.setText("Combo: " + engine.getCombo());
+
+        saveHangmanScore();
     }
 
     private void updateHud() {
@@ -290,7 +292,7 @@ public class HangmanController {
 
         double progress = (double) (maxLives - remainingLives) / maxLives;
         hangmanProgressBar.setProgress(progress);
-        hangmanImageView.setOpacity(0.25 + (progress * 0.75));
+        drawHangman(progress);
 
         comboLabel.setText("Combo: " + engine.getCombo());
         bestScoreLabel.setText("Meilleur score: " + bestScore);
@@ -300,6 +302,60 @@ public class HangmanController {
             if (button != null) {
                 button.setDisable(engine.isLetterUsed(c) || engine.isFinished());
             }
+        }
+    }
+
+    private void drawHangman(double progress) {
+        if (hangmanCanvas == null) {
+            return;
+        }
+
+        GraphicsContext gc = hangmanCanvas.getGraphicsContext2D();
+        double width = hangmanCanvas.getWidth();
+        double height = hangmanCanvas.getHeight();
+
+        gc.clearRect(0, 0, width, height);
+        gc.setStroke(Color.web("#dce9ff"));
+        gc.setLineWidth(4);
+
+        // Base
+        gc.strokeLine(width * 0.15, height * 0.90, width * 0.85, height * 0.90);
+        // Pole
+        gc.strokeLine(width * 0.25, height * 0.90, width * 0.25, height * 0.10);
+        // Beam
+        gc.strokeLine(width * 0.25, height * 0.10, width * 0.65, height * 0.10);
+        // Rope
+        gc.strokeLine(width * 0.65, height * 0.10, width * 0.65, height * 0.20);
+
+        int stage = (int) Math.ceil(progress * 6);
+        gc.setStroke(Color.web("#ffd54a"));
+        gc.setLineWidth(5);
+
+        if (stage >= 1) {
+            gc.strokeOval(width * 0.60, height * 0.20, width * 0.10, height * 0.10);
+        }
+        if (stage >= 2) {
+            gc.strokeLine(width * 0.65, height * 0.30, width * 0.65, height * 0.55);
+        }
+        if (stage >= 3) {
+            gc.strokeLine(width * 0.65, height * 0.36, width * 0.55, height * 0.46);
+        }
+        if (stage >= 4) {
+            gc.strokeLine(width * 0.65, height * 0.36, width * 0.75, height * 0.46);
+        }
+        if (stage >= 5) {
+            gc.strokeLine(width * 0.65, height * 0.55, width * 0.58, height * 0.72);
+        }
+        if (stage >= 6) {
+            gc.strokeLine(width * 0.65, height * 0.55, width * 0.72, height * 0.72);
+        }
+    }
+
+    private void saveHangmanScore() {
+        try {
+            new HangmanScoreService().saveScore(totalScore, bestScore, roundCounter);
+        } catch (Exception e) {
+            statusLabel.setText("Impossible de sauvegarder le score du pendu.");
         }
     }
 
@@ -331,21 +387,6 @@ public class HangmanController {
         }
     }
 
-    private void loadHangmanImage() {
-        Path imagePath = Paths.get("assets", "pendu", "pendu-bourreau.png");
-        if (!Files.exists(imagePath)) {
-            statusLabel.setText("Image pendu-bourreau.png introuvable dans assets/pendu.");
-            return;
-        }
-
-        try (InputStream inputStream = Files.newInputStream(imagePath)) {
-            Image image = new Image(inputStream);
-            hangmanImageView.setImage(image);
-            hangmanImageView.setOpacity(0.25);
-        } catch (IOException exception) {
-            statusLabel.setText("Erreur lors du chargement de l'image du pendu.");
-        }
-    }
 
     private void applyBackgroundImage() {
         Path backgroundPath = Paths.get("assets", "pendu", "pendu-background.png");

@@ -1,4 +1,4 @@
-package com.example.java_royal.flappybird;
+package com.javaroyal.games.flappy;
 
 import javafx.application.Application;
 import javafx.application.Platform;

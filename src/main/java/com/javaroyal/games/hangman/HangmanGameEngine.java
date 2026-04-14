@@ -1,4 +1,4 @@
-package com.example.java_royal.pendu;
+package com.javaroyal.games.hangman;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

@@ -1,18 +1,20 @@
-# Java Royal - Module Sudoku
+# Java Royal
+
+Projet JavaFX regroupant plusieurs mini-jeux (Sudoku, Pendu, Flappy Bird, etc.).
+
+## Prerequis
+- Java 21+
+- Maven (ou le wrapper `./mvnw`)
 
 ## Lancer l'application
-
 ```zsh
+cd /Users/mayel/Documents/Ynov/Java/Java_Royal
 ./mvnw javafx:run
 ```
 
-## Module Sudoku
-
-- Vue: `src/main/resources/com/example/java_royal/sudoku-view.fxml`
-- Controleur: `src/main/java/com/example/java_royal/controllers/SudokuController.java`
-- Styles: `src/main/resources/com/example/java_royal/sudoku.css`
-
-## Donnees
-
-Les scores Sudoku sont sauvegardes dans la table `sudoku_scores` de SQLite.
+## Tests
+```zsh
+cd /Users/mayel/Documents/Ynov/Java/Java_Royal
+./mvnw test
+```
 

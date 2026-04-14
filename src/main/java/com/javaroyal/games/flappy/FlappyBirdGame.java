@@ -1,5 +1,6 @@
-package com.example.java_royal.flappybird;
+package com.javaroyal.games.flappy;
 
+import com.example.java_royal.service.FlappyScoreService;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.geometry.Bounds;
@@ -416,6 +417,12 @@ public class FlappyBirdGame extends StackPane {
         overlayCard.setVisible(true);
         overlayScore.setText("Score : " + (int) score);
         birdView.setRotate(85);
+
+        try {
+            new FlappyScoreService().saveScore((int) score, currentMode.title);
+        } catch (Exception ignored) {
+            // Ignore save failures to avoid blocking game over.
+        }
     }
 
     private void spawnObstaclePair() {
@@ -668,3 +675,4 @@ public class FlappyBirdGame extends StackPane {
         }
     }
 }
+

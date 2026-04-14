@@ -65,6 +65,12 @@
             <Button text="Sudoku" prefWidth="180" prefHeight="45" onAction="#handleSudoku"
                     style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
 
+            <Button text="Flappy Bird" prefWidth="180" prefHeight="45" onAction="#handleOpenFlappyBird"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #ff9f1c 0%, #ff6f00 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Pendu" prefWidth="180" prefHeight="45" onAction="#handleOpenPendu"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #6f42c1 0%, #563d7c 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
             <Button text="Classement" prefWidth="180" prefHeight="45" onAction="#handleLeaderboard"
                     style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-text-fill: #333333; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
 

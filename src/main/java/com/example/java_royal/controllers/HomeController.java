@@ -1,6 +1,6 @@
 package com.example.java_royal.controllers;
 
-import com.example.java_royal.flappybird.FlappyBirdGame;
+import com.javaroyal.games.flappy.FlappyBirdGame;
 import com.example.java_royal.model.User;
 import com.example.java_royal.service.UserService;
 import com.example.java_royal.session.SessionManager;
@@ -44,14 +44,11 @@ public class HomeController {
     @FXML
     private Label arenaPlaceholder;
 
-<<<<<<< HEAD
     private static final String SUDOKU_VIEW = "/com/example/java_royal/sudoku-view.fxml";
 
     /**
      * Initialisation du contrôleur appelée automatiquement après le chargement du FXML
      */
-=======
->>>>>>> 25b84dbc6f682089c1ad7a82d0e56505a7e0c2a8
     @FXML
     public void initialize() {
         try {
@@ -204,7 +201,6 @@ public class HomeController {
     }
 
     @FXML
-<<<<<<< HEAD
     private void handleSudoku() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(SUDOKU_VIEW));
@@ -219,7 +215,8 @@ public class HomeController {
             e.printStackTrace();
         }
     }
-=======
+
+    @FXML
     private void handleLogout() {
         try {
             UserSession.getInstance().clear();
@@ -249,5 +246,4 @@ public class HomeController {
 
         welcomeLabel.setText("Bonjour " + username);
     }
->>>>>>> 25b84dbc6f682089c1ad7a82d0e56505a7e0c2a8
 }

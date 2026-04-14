@@ -12,6 +12,8 @@ module com.example.java_royal {
     opens com.example.java_royal.controller to javafx.fxml;
     opens com.example.java_royal.controllers to javafx.fxml;
     opens com.example.java_royal.app to javafx.fxml;
+    opens com.javaroyal.games.flappy to javafx.fxml;
+    opens com.javaroyal.games.hangman to javafx.fxml;
 
     exports com.example.java_royal;
     exports com.example.java_royal.controller;
@@ -19,5 +21,6 @@ module com.example.java_royal {
     exports com.example.java_royal.model;
     exports com.example.java_royal.config;
     exports com.example.java_royal.app;
-    exports com.example.java_royal.flappybird;
+    exports com.javaroyal.games.flappy;
+    exports com.javaroyal.games.hangman;
 }

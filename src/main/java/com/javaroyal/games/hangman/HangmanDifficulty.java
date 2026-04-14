@@ -1,4 +1,4 @@
-package com.example.java_royal.pendu;
+package com.javaroyal.games.hangman;
 
 public enum HangmanDifficulty {
     FACILE("Facile", 8, 150, 12, 6, 20),
