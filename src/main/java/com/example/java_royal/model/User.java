@@ -62,35 +62,23 @@ public class User {
         return totalXp;
     }
 
-    // ==================== MÉTHODES DE CALCUL ====================
-
     /**
-     * Calcule le seuil d'XP requis pour atteindre le niveau suivant
-     * Formule: Niveau × 100
-     *
-     * Exemples:
-     * - Level 1: Seuil = 100
-     * - Level 2: Seuil = 200
-     * - Level 3: Seuil = 300
+     * Calcule le seuil XP pour le prochain niveau
+     * Formule: XP_Suivant = Niveau_Actuel × 100
      */
     public int getNextLevelThreshold() {
         return currentLevel * 100;
     }
 
     /**
-     * Calcule le pourcentage de progression vers le niveau suivant
-     * Retourne une valeur entre 0.0 et 1.0
-     *
-     * Exemples:
-     * - 0 XP / 100 = 0.0 (0%)
-     * - 50 XP / 100 = 0.5 (50%)
-     * - 100 XP / 100 = 1.0 (100%)
+     * Retourne le pourcentage de progression vers le niveau suivant
      */
     public double getXpProgressPercentage() {
         int threshold = getNextLevelThreshold();
-        if (threshold == 0) return 0.0;
+        if (threshold <= 0) return 0;
         return Math.min(1.0, (double) currentXp / threshold);
     }
+
 
     /**
      * Retourne une représentation textuelle du User

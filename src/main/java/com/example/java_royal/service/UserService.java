@@ -12,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Service métier pour gérer les opérations utilisateur.
- * Centralise la logique SQL et la récupération des données utilisateur.
- * Utilise le pattern Service Layer de l'architecture MVC.
+ * Service métier pour la gestion des utilisateurs.
+ * Applique le pattern MVC en centralisant la logique SQL.
  */
 public class UserService {
 
@@ -32,7 +31,6 @@ public class UserService {
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
             statement.setString(1, identifier);
             statement.setString(2, identifier);
 
@@ -177,7 +175,6 @@ public class UserService {
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
             statement.setInt(1, newLevel);
             statement.setLong(2, userId);
 

@@ -1,5 +1,8 @@
 package com.example.java_royal.controllers;
 
+import com.example.java_royal.model.User;
+import com.example.java_royal.service.UserService;
+import com.example.java_royal.session.UserSession;
 import com.example.java_royal.config.DatabaseConnection;
 import org.mindrot.jbcrypt.BCrypt;
 import javafx.fxml.FXML;
@@ -16,6 +19,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Contrôleur pour la page d'inscription.
+ * Après inscription réussie :
+ * - Crée un nouvel utilisateur avec level=1 et xp=0 par défaut
+ * - Récupère les données du nouvel utilisateur
+ * - Stocke les données en session utilisateur
+ * - Redirige vers la page d'introduction
+ */
 public class RegisterController {
     @FXML
     private TextField usernameField;
@@ -38,7 +49,7 @@ public class RegisterController {
         }
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-        String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO users (username, email, password, current_level, current_xp) VALUES (?, ?, ?, 1, 0)";
 
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -46,7 +57,19 @@ public class RegisterController {
             statement.setString(2, email);
             statement.setString(3, hashedPassword);
             statement.executeUpdate();
-            messageLabel.setText("Inscription reussie. Vous pouvez vous connecter.");
+
+            // Récupère les données du nouvel utilisateur
+            User newUser = UserService.getUserByUsername(username);
+            if (newUser != null) {
+                // Stocke en session
+                UserSession session = UserSession.getInstance();
+                session.update(newUser.getId(), newUser.getUsername(), newUser.getEmail(),
+                              newUser.getCurrentLevel(), newUser.getCurrentXp());
+
+                // Redirige vers l'introduction
+                goToIntroduction();
+            }
+
         } catch (SQLException e) {
             String error = e.getMessage() == null ? "" : e.getMessage().toLowerCase();
             if (error.contains("users.username") || error.contains("username")) {
@@ -70,6 +93,30 @@ public class RegisterController {
             stage.show();
         } catch (IOException e) {
             messageLabel.setText("Impossible de revenir à la connexion.");
+        }
+    }
+
+    /**
+     * Redirige vers la page d'introduction après une inscription réussie
+     */
+    private void goToIntroduction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/introduction-view.fxml"));
+            if (loader.getLocation() == null) {
+                messageLabel.setText("Erreur: Fichier introduction-view.fxml introuvable.");
+                return;
+            }
+            Parent root = loader.load();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Introduction");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            messageLabel.setText("Impossible d'accéder à l'introduction: " + e.getMessage());
+        } catch (NullPointerException e) {
+            messageLabel.setText("Erreur: Impossible de récupérer la fenêtre.");
         }
     }
 }

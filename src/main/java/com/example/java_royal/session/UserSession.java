@@ -11,8 +11,8 @@ public final class UserSession {
     private long id;
     private String username;
     private String email;
-    private int currentLevel = 1;      // ← Initialiser à 1 (au lieu de 0)
-    private int currentXp = 0;          // ← Initialiser à 0
+    private int currentLevel = 1;
+    private int currentXp = 0;
 
     private UserSession() {
     }

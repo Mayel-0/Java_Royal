@@ -2,6 +2,7 @@ package com.example.java_royal.controller;
 
 import com.example.java_royal.model.User;
 import com.example.java_royal.service.UserService;
+import com.example.java_royal.session.SessionManager;
 import com.example.java_royal.session.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,6 +74,7 @@ public class HelloController {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void goToRegister() {

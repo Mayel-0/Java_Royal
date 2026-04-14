@@ -1,0 +1,121 @@
+.hangman-root {
+    -fx-font-family: "Trebuchet MS";
+}
+
+.panel {
+    -fx-background-color: rgba(8, 18, 35, 0.86);
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 215, 0, 0.55);
+    -fx-border-radius: 16;
+    -fx-border-width: 1.4;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 12, 0.25, 0, 4);
+}
+
+.top-panel {
+    -fx-background-color: linear-gradient(to bottom, rgba(18, 45, 86, 0.92), rgba(9, 24, 50, 0.88));
+}
+
+.bottom-panel {
+    -fx-background-color: linear-gradient(to top, rgba(18, 45, 86, 0.92), rgba(9, 24, 50, 0.88));
+}
+
+.side-panel {
+    -fx-min-width: 290;
+    -fx-max-width: 310;
+    -fx-padding: 14;
+}
+
+.title-label {
+    -fx-text-fill: #ffd54a;
+    -fx-font-size: 34px;
+    -fx-font-weight: 800;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 8, 0.35, 0, 2);
+}
+
+.hud-label {
+    -fx-text-fill: #d6e6ff;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.hud-pill {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 999;
+    -fx-padding: 7 12 7 12;
+    -fx-text-fill: #f8fbff;
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+}
+
+.section-label {
+    -fx-text-fill: #dce9ff;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+}
+
+.word-label {
+    -fx-text-fill: #ffd54a;
+    -fx-font-size: 44px;
+    -fx-font-weight: 900;
+    -fx-padding: 4 0 4 0;
+}
+
+.keyboard-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-background-radius: 14;
+    -fx-padding: 14;
+}
+
+.letter-button {
+    -fx-background-color: linear-gradient(to bottom, #ffe082, #f6b83d);
+    -fx-text-fill: #1e2b44;
+    -fx-font-size: 15px;
+    -fx-font-weight: 900;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.letter-button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.action-btn {
+    -fx-background-color: linear-gradient(to bottom, #3ddc97, #17a76b);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-padding: 10 16 10 16;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.danger-btn {
+    -fx-background-color: linear-gradient(to bottom, #f45a5a, #cf2434);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-padding: 10 16 10 16;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.status-label {
+    -fx-text-fill: #ffd54a;
+    -fx-font-size: 16px;
+    -fx-font-weight: 800;
+}
+
+.help-label {
+    -fx-text-fill: #b7c9e9;
+    -fx-font-size: 12px;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to right, #ffce54, #ff6f61);
+    -fx-background-radius: 999;
+}
+
+.progress-bar > .track {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-background-radius: 999;
+}

@@ -19,4 +19,5 @@ module com.example.java_royal {
     exports com.example.java_royal.model;
     exports com.example.java_royal.config;
     exports com.example.java_royal.app;
+    exports com.example.java_royal.flappybird;
 }

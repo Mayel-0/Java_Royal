@@ -1,0 +1,38 @@
+.memory-root {
+    -fx-background-color: linear-gradient(to bottom, #1a2c5b, #0f1938);
+}
+
+.memory-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffe28a;
+}
+
+.memory-hud {
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #ffffff;
+}
+
+.memory-status {
+    -fx-font-size: 15px;
+    -fx-text-fill: #d9e2ff;
+    -fx-padding: 12 0 0 0;
+}
+
+.memory-card {
+    -fx-border-color: #ffd86a;
+    -fx-border-width: 2;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 10, 0.2, 0, 2);
+}
+
+.memory-card-matched {
+    -fx-border-color: #5ef18d;
+}
+
+.memory-card-mismatch {
+    -fx-border-color: #ff7c7c;
+}
+
