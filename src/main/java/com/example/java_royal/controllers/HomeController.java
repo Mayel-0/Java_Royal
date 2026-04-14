@@ -1,63 +1,127 @@
 package com.example.java_royal.controllers;
 
 import com.example.java_royal.flappybird.FlappyBirdGame;
+import com.example.java_royal.model.User;
+import com.example.java_royal.service.UserService;
 import com.example.java_royal.session.SessionManager;
 import com.example.java_royal.session.UserSession;
+import com.example.java_royal.util.ArenaImageCache;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class HomeController {
+    @FXML
+    private BorderPane rootPane;
+
     @FXML
     private Label welcomeLabel;
 
     @FXML
+    private Label levelBadge;
+
+    @FXML
+    private ProgressBar xpProgressBar;
+
+    @FXML
+    private Label xpLabel;
+
+    @FXML
+    private Label arenaPlaceholder;
+
+    @FXML
     public void initialize() {
-        refreshWelcomeLabel();
-    }
-
-    @FXML
-    private void handleOpenProfile() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/profile-view.fxml"));
-            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Modifier Profil");
-            stage.show();
-        } catch (IOException e) {
-            welcomeLabel.setText("Impossible d'ouvrir la page profil.");
-        }
-    }
-
-    /**
-     * Navigue vers la page du classement (Leaderboard)
-     */
-    @FXML
-    private void handleLeaderboard() {
-        try {
-            System.out.println("[HomeController] Tentative de chargement du classement...");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/leaderboard-view.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Classement");
-            stage.show();
-
-            System.out.println("[HomeController] ✅ Navigation vers le classement réussie");
-        } catch (IOException e) {
-            System.err.println("[HomeController] ❌ Erreur lors du chargement du classement: " + e.getMessage());
+            rootPane.setStyle("");
+            ArenaImageCache.initialize();
+            loadPlayerData();
+            updateBackground();
+        } catch (SQLException e) {
             e.printStackTrace();
+            refreshWelcomeLabel();
         }
     }
-}
+
+    private void loadPlayerData() throws SQLException {
+        UserSession session = UserSession.getInstance();
+        User user = UserService.getUserById(session.getId());
+
+        if (user == null) {
+            welcomeLabel.setText("Utilisateur non trouve");
+            refreshWelcomeLabel();
+            return;
+        }
+
+        session.update(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getCurrentLevel(),
+                user.getCurrentXp()
+        );
+
+        welcomeLabel.setText("Bienvenue " + user.getUsername() + " !");
+        if (levelBadge != null) {
+            levelBadge.setText(String.valueOf(user.getCurrentLevel()));
+        }
+        if (xpProgressBar != null) {
+            xpProgressBar.setProgress(user.getXpProgressPercentage());
+        }
+        if (xpLabel != null) {
+            xpLabel.setText(user.getCurrentXp() + " / " + user.getNextLevelThreshold() + " XP");
+        }
+    }
+
+    private void updateBackground() {
+        int level = UserSession.getInstance().getCurrentLevel();
+        Image arenaImage = ArenaImageCache.getArenaImage(level);
+
+        if (arenaImage != null && !arenaImage.isError()) {
+            if (rootPane != null) {
+                try {
+                    BackgroundImage bgImage = new BackgroundImage(
+                            arenaImage,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundRepeat.NO_REPEAT,
+                            BackgroundPosition.CENTER,
+                            new BackgroundSize(100, 100, true, true, true, false)
+                    );
+
+                    rootPane.setBackground(new javafx.scene.layout.Background(bgImage));
+                    rootPane.setStyle("");
+                    if (arenaPlaceholder != null) {
+                        arenaPlaceholder.setVisible(false);
+                    }
+                } catch (Exception e) {
+                    if (arenaPlaceholder != null) {
+                        arenaPlaceholder.setText("Arene " + level + " - Entrainement");
+                        arenaPlaceholder.setVisible(true);
+                    }
+                }
+            }
+            return;
+        }
+
+        if (arenaPlaceholder != null) {
+            arenaPlaceholder.setText("Arene " + level + " - Entrainement");
+            arenaPlaceholder.setVisible(true);
+        }
+    }
 
     @FXML
     private void handleOpenMemory() {
@@ -96,6 +160,52 @@ public class HomeController {
             stage.show();
         } catch (IOException e) {
             welcomeLabel.setText("Impossible d'ouvrir le mode Pendu.");
+        }
+    }
+
+    @FXML
+    private void handleOpenProfile() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/profile-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Profil");
+            stage.show();
+        } catch (IOException e) {
+            welcomeLabel.setText("Impossible d'ouvrir la page profil.");
+        }
+    }
+
+    @FXML
+    private void handleLeaderboard() {
+        try {
+            System.out.println("[HomeController] Tentative de chargement du classement...");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/leaderboard-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Classement");
+            stage.show();
+
+            System.out.println("[HomeController] ✅ Navigation vers le classement réussie");
+        } catch (IOException e) {
+            System.err.println("[HomeController] ❌ Erreur lors du chargement du classement: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleLogout() {
+        try {
+            UserSession.getInstance().clear();
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/start-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Java Royal");
+            stage.show();
+        } catch (IOException e) {
+            welcomeLabel.setText("Erreur lors de la déconnexion.");
         }
     }
 
