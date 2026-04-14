@@ -219,14 +219,8 @@ public class HomeController {
     private void handleLeaderboard() {
         try {
             System.out.println("[HomeController] Tentative de chargement du classement...");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/leaderboard-view.fxml"));
-            Parent root = loader.load();
-
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Classement");
-            stage.show();
-
+            com.example.java_royal.util.SceneNavigator.replaceScene(stage, "/com/example/java_royal/leaderboard-view.fxml", "Classement");
             System.out.println("[HomeController] ✅ Navigation vers le classement réussie");
         } catch (IOException e) {
             System.err.println("[HomeController] ❌ Erreur lors du chargement du classement: " + e.getMessage());

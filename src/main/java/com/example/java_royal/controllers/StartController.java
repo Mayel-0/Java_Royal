@@ -1,4 +1,4 @@
-package com.example.java_royal.controller;
+package com.example.java_royal.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

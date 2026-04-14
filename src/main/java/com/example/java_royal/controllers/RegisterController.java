@@ -4,11 +4,9 @@ import com.example.java_royal.model.User;
 import com.example.java_royal.service.UserService;
 import com.example.java_royal.session.UserSession;
 import com.example.java_royal.config.DatabaseConnection;
+import com.example.java_royal.util.SceneNavigator;
 import org.mindrot.jbcrypt.BCrypt;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -85,12 +83,8 @@ public class RegisterController {
     @FXML
     private void backToLogin() {
         try {
-            Scene scene = usernameField.getScene();
-            Stage stage = (Stage) scene.getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/hello-view.fxml"));
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-            stage.show();
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            SceneNavigator.replaceScene(stage, "/com/example/java_royal/hello-view.fxml", "Connexion");
         } catch (IOException e) {
             messageLabel.setText("Impossible de revenir à la connexion.");
         }
@@ -101,17 +95,8 @@ public class RegisterController {
      */
     private void goToIntroduction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/introduction-view.fxml"));
-            if (loader.getLocation() == null) {
-                messageLabel.setText("Erreur: Fichier introduction-view.fxml introuvable.");
-                return;
-            }
-            Parent root = loader.load();
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setTitle("Introduction");
-            stage.show();
+            SceneNavigator.replaceScene(stage, "/com/example/java_royal/introduction-view.fxml", "Introduction");
         } catch (IOException e) {
             e.printStackTrace();
             messageLabel.setText("Impossible d'accéder à l'introduction: " + e.getMessage());

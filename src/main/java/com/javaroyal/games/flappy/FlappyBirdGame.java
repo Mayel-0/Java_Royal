@@ -1,6 +1,7 @@
 package com.javaroyal.games.flappy;
 
 import com.example.java_royal.service.FlappyScoreService;
+import com.example.java_royal.util.SceneNavigator;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -22,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -515,16 +517,8 @@ public class FlappyBirdGame extends StackPane {
     private void backToHome() {
         try {
             timer.stop();
-            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/com/example/java_royal/home-view.fxml"));
-            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
-
-            double width = stage.getWidth();
-            double height = stage.getHeight();
-
-            javafx.scene.Scene scene = new javafx.scene.Scene(root, width, height);
-            stage.setScene(scene);
-            stage.setTitle("Accueil");
-            stage.show();
+            Stage stage = (Stage) getScene().getWindow();
+            SceneNavigator.replaceScene(stage, "/com/example/java_royal/home-view.fxml", "Accueil");
         } catch (IOException e) {
             e.printStackTrace();
         }

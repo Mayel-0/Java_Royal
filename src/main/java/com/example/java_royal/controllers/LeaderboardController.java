@@ -1,12 +1,10 @@
 package com.example.java_royal.controllers;
 
 import com.example.java_royal.service.UserService;
+import com.example.java_royal.util.SceneNavigator;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -190,12 +188,8 @@ public class LeaderboardController {
     @FXML
     private void goBackHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(HOME_VIEW));
-            Parent root = loader.load();
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Accueil");
-            stage.show();
+            SceneNavigator.replaceScene(stage, HOME_VIEW, "Accueil");
         } catch (IOException e) {
             System.err.println("[LeaderboardController] ❌ Erreur lors du retour à l'accueil: " + e.getMessage());
             e.printStackTrace();
@@ -224,4 +218,3 @@ public class LeaderboardController {
         public int getTotalXp() { return totalXp; }
     }
 }
-

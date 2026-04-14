@@ -90,7 +90,10 @@ public class HelloController {
     private void loadView(String resourcePath, String title) throws IOException {
         Parent root = loadFxml(resourcePath);
         Stage stage = getStage();
-        stage.setScene(new Scene(root));
+
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+        stage.setScene(width > 0 && height > 0 ? new Scene(root, width, height) : new Scene(root));
         stage.setTitle(title);
         stage.show();
     }
