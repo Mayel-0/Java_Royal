@@ -26,4 +26,24 @@
             <Label fx:id="welcomeLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
         </StackPane>
     </center>
+
+    <!-- BOTTOM : Boutons d'action -->
+    <bottom>
+        <HBox spacing="15" alignment="CENTER" style="-fx-padding: 20; -fx-background-color: rgba(31, 111, 235, 0.95); -fx-border-color: #FFD700; -fx-border-width: 3 0 0 0; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, -3);">
+
+            <Button text="Démarrer un Mini-jeu" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Classement" prefWidth="180" prefHeight="45" onAction="#handleLeaderboard"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-text-fill: #333333; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Profil" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Quitter" prefWidth="180" prefHeight="45"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #dc3545 0%, #c82333 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"
+                    onAction="#handleLogout"/>
+        </HBox>
+    </bottom>
+
 </BorderPane>

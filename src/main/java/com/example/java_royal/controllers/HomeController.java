@@ -36,6 +36,29 @@ public class HomeController {
         }
     }
 
+    /**
+     * Navigue vers la page du classement (Leaderboard)
+     */
+    @FXML
+    private void handleLeaderboard() {
+        try {
+            System.out.println("[HomeController] Tentative de chargement du classement...");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/leaderboard-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Classement");
+            stage.show();
+
+            System.out.println("[HomeController] ✅ Navigation vers le classement réussie");
+        } catch (IOException e) {
+            System.err.println("[HomeController] ❌ Erreur lors du chargement du classement: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
     @FXML
     private void handleOpenMemory() {
         try {

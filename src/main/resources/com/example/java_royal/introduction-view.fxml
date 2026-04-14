@@ -8,44 +8,83 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/21"
-            fx:controller="com.example.java_royal.controllers.IntroductionController"
-            style="-fx-background-color: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+            fx:controller="com.example.java_royal.controllers.IntroductionController">
 
-    <!-- Centre : Contenu principal -->
+    <!-- CENTRE : Message d'introduction -->
     <center>
-        <VBox alignment="CENTER" spacing="30" style="-fx-padding: 40;">
-            <!-- Titre -->
-            <Label text="JAVA ROYAL" alignment="CENTER"
-                   style="-fx-text-fill: #FFD700; -fx-font-size: 48; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);">
+        <VBox alignment="CENTER" spacing="30"
+              style="-fx-background-color: linear-gradient(to bottom, #1f4fbe, #0d2266); -fx-padding: 50;">
+
+            <!-- Titre principal -->
+            <Label text="Bienvenue dans Java Royal!"
+                   style="-fx-text-fill: #FFD700; -fx-font-size: 48; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #000000, 10, 0.8, 0, 3);">
                 <font>
                     <Font name="Arial" size="48"/>
                 </font>
             </Label>
 
-            <!-- Texte d'introduction -->
-            <Label text="Bienvenue dans Java Royal !" alignment="CENTER"
-                   style="-fx-text-fill: #FFFFFF; -fx-font-size: 28; -fx-font-weight: bold;">
+            <!-- Sous-titre -->
+            <Label text="Un jeu de cartes stratégique inspiré de Clash Royale"
+                   style="-fx-text-fill: #CCCCCC; -fx-font-size: 20; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, 2);">
                 <font>
-                    <Font name="Arial" size="28"/>
+                    <Font name="Arial" size="20"/>
                 </font>
             </Label>
 
-            <!-- Description -->
-            <Label wrapText="true" alignment="CENTER"
-                   text="Gravissez les arènes en remportant des mini-jeux pour gagner de l'XP et débloquer de nouveaux mondes. &#10;Chaque victoire vous rapproche de la gloire ! ⚔️"
-                   style="-fx-text-fill: #CCCCCC; -fx-font-size: 16; -fx-line-spacing: 8;">
-                <font>
-                    <Font name="Arial" size="16"/>
-                </font>
-                <VBox.margin>
-                    <Insets left="20" right="20"/>
-                </VBox.margin>
-            </Label>
+            <!-- Contenu d'introduction -->
+            <VBox spacing="15" style="-fx-padding: 30; -fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: #FFD700; -fx-border-width: 2; -fx-border-radius: 10;">
 
-            <!-- Bouton C'est parti! -->
-            <Button fx:id="startButton" text="C'est parti !" prefWidth="200" prefHeight="50"
-                    style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12px 30px; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"
-                    onAction="#goToHome"/>
+                <Label text="🎮 Objectif du Jeu"
+                       style="-fx-text-fill: #FFD700; -fx-font-size: 18; -fx-font-weight: bold;">
+                    <font>
+                        <Font name="Arial" size="18"/>
+                    </font>
+                </Label>
+
+                <Label text="Relevez des défis en combat, gagnez de l'expérience et augmentez votre niveau pour devenir le meilleur joueur du classement!"
+                       style="-fx-text-fill: #FFFFFF; -fx-font-size: 14; -fx-wrap-text: true;">
+                    <font>
+                        <Font name="Arial" size="14"/>
+                    </font>
+                </Label>
+
+                <Label text="⚔️ Combats en Arène"
+                       style="-fx-text-fill: #FFD700; -fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 20 0 0 0;">
+                    <font>
+                        <Font name="Arial" size="18"/>
+                    </font>
+                </Label>
+
+                <Label text="Affrontez 5 arènes différentes avec des défis croissants. Chaque victoire vous rapproche du sommet!"
+                       style="-fx-text-fill: #FFFFFF; -fx-font-size: 14; -fx-wrap-text: true;">
+                    <font>
+                        <Font name="Arial" size="14"/>
+                    </font>
+                </Label>
+
+                <Label text="📊 Progression"
+                       style="-fx-text-fill: #FFD700; -fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 20 0 0 0;">
+                    <font>
+                        <Font name="Arial" size="18"/>
+                    </font>
+                </Label>
+
+                <Label text="Gagnez de l'XP à chaque victoire, montez de niveau et consultez le classement mondial pour suivre votre progression!"
+                       style="-fx-text-fill: #FFFFFF; -fx-font-size: 14; -fx-wrap-text: true;">
+                    <font>
+                        <Font name="Arial" size="14"/>
+                    </font>
+                </Label>
+            </VBox>
+
+            <!-- Bouton pour commencer -->
+            <Button fx:id="startButton" text="Commencer l'aventure"
+                    onAction="#goToHome"
+                    style="-fx-font-size: 18; -fx-padding: 15 40; -fx-background-color: #FFD700; -fx-text-fill: #000000; -fx-font-weight: bold; -fx-border-radius: 8; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, 2);">
+                <font>
+                    <Font name="Arial" size="18"/>
+                </font>
+            </Button>
 
         </VBox>
     </center>
