@@ -156,6 +156,20 @@ public class HomeController {
     }
 
     @FXML
+    private void handleOpenTrueOrFalse() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/javaroyal/games/t_or_f/true-false-view.fxml"));
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root, 800, 600));
+            stage.setTitle("True or False - Clash Royale");
+            stage.show();
+        } catch (IOException e) {
+            welcomeLabel.setText("Impossible d'ouvrir le mode True or False.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleOpenPendu() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/pendu-view.fxml"));

@@ -67,6 +67,14 @@ public final class DatabaseInitializer {
                 )
                 """;
 
+        String createTrueOrFalseTable = """
+                CREATE TABLE IF NOT EXISTS true_or_false (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    question_text TEXT NOT NULL,
+                    correct_answer INTEGER NOT NULL
+                )
+                """;
+
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("PRAGMA foreign_keys = ON");
@@ -75,9 +83,41 @@ public final class DatabaseInitializer {
             statement.execute(createFlappyScoresTable);
             statement.execute(createHangmanScoresTable);
             statement.execute(createHangmanWordsTable);
+            statement.execute(createTrueOrFalseTable);
 
             seedHangmanWordsIfNeeded(connection, statement);
+            seedTrueOrFalseQuestionsIfNeeded(connection, statement);
         }
+    }
+
+    private static void seedTrueOrFalseQuestionsIfNeeded(Connection connection, Statement statement) throws SQLException {
+        try (var resultSet = statement.executeQuery("SELECT COUNT(*) FROM true_or_false")) {
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return;
+            }
+        }
+
+        String insert = """
+            INSERT INTO true_or_false (question_text, correct_answer) VALUES
+            ('Le P.E.K.K.A est une unité de type féminin.', 1),
+            ('La décharge (Zap) peut réinitialiser la tour de l''enfer.', 1),
+            ('Le Chevalier coûte 4 élixirs.', 0),
+            ('Le Sort de Bûche peut toucher les unités aériennes.', 0),
+            ('Le Géant Royal attaque uniquement les bâtiments.', 1),
+            ('La Princesse peut tirer sur une tour sans être ciblée par celle-ci.', 1),
+            ('Le Zappy met 10 secondes à charger son tir.', 0),
+            ('Le Mineur inflige moins de dégâts aux tours qu''aux unités.', 1),
+            ('Le Sort de Séisme inflige plus de dégâts aux bâtiments qu''aux unités.', 1),
+            ('Le Squelette Géant lâche sa bombe même s''il est gelé au moment de sa mort.', 1),
+            ('Le Canon peut attaquer les unités aériennes.', 0),
+            ('L''Électro-Sorcier réinitialise le chargement du Dragon de l''Enfer.', 1),
+            ('Le sort de Miroir coûte le même prix en élixir que la carte précédente.', 0),
+            ('La Voleuse est invincible pendant qu''elle effectue son dash.', 1),
+            ('Le Bourreau peut détruire un bouclier et infliger des dégâts à l''unité en un seul lancer.', 1),
+            ('Le Mortier peut tirer sur une unité qui est juste à côté de lui.', 0),
+            ('La Sorcière (Witch) est une carte de rareté Légendaire.', 0);
+        """;
+        statement.executeUpdate(insert);
     }
 
     private static void seedHangmanWordsIfNeeded(Connection connection, Statement statement) throws SQLException {

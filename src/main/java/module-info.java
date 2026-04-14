@@ -14,6 +14,7 @@ module com.example.java_royal {
     opens com.example.java_royal.app to javafx.fxml;
     opens com.javaroyal.games.flappy to javafx.fxml;
     opens com.javaroyal.games.hangman to javafx.fxml;
+    opens com.example.javaroyal.games.t_or_f to javafx.fxml;
 
     exports com.example.java_royal;
     exports com.example.java_royal.controller;
