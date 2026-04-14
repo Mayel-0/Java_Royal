@@ -1,11 +1,12 @@
 package com.example.java_royal.controllers;
 
 import com.example.java_royal.service.UserService;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -19,10 +20,12 @@ import java.util.List;
 
 /**
  * Contrôleur pour la vue du classement (Leaderboard).
- * Affiche les meilleurs joueurs avec un style Clash Royale.
- * Utilise une TableView pour afficher Rang, Pseudo, Niveau et XP Totale.
  */
 public class LeaderboardController {
+
+    private static final String HOME_VIEW = "/com/example/java_royal/home-view.fxml";
+    private static final String TOP_STYLE = "-fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-font-size: 14; -fx-alignment: CENTER;";
+    private static final String STANDARD_STYLE = "-fx-text-fill: #AAAAAA; -fx-alignment: CENTER;";
 
     @FXML
     private BorderPane rootPane;
@@ -48,12 +51,9 @@ public class LeaderboardController {
     @FXML
     public void initialize() {
         try {
-            // Charge les données du classement
-            loadLeaderboard();
-
-            // Configure les colonnes de la TableView
+            leaderboardTable.getItems().setAll(loadLeaderboard());
             setupTableColumns();
-
+            applyTableStyles();
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("[LeaderboardController] ❌ Erreur lors du chargement du classement: " + e.getMessage());
@@ -64,7 +64,7 @@ public class LeaderboardController {
      * Charge les données du classement depuis la base de données
      * Récupère les 10 meilleurs joueurs
      */
-    private void loadLeaderboard() throws SQLException {
+    private List<LeaderboardRowData> loadLeaderboard() throws SQLException {
         System.out.println("[LeaderboardController] Chargement du classement...");
 
         // Récupère les 10 meilleurs joueurs
@@ -72,170 +72,101 @@ public class LeaderboardController {
 
         System.out.println("[LeaderboardController] ✅ " + topPlayers.size() + " joueurs chargés");
 
-        // Peuple la TableView avec les données
-        for (int i = 0; i < topPlayers.size(); i++) {
-            UserService.LeaderboardEntry entry = topPlayers.get(i);
-            int rank = i + 1;
-
-            LeaderboardRowData rowData = new LeaderboardRowData(
-                rank,
-                entry.getUsername(),
-                entry.getLevel(),
-                entry.getTotalXp()
-            );
-
-            leaderboardTable.getItems().add(rowData);
+        List<LeaderboardRowData> rows = new java.util.ArrayList<>(topPlayers.size());
+        for (int index = 0; index < topPlayers.size(); index++) {
+            UserService.LeaderboardEntry entry = topPlayers.get(index);
+            rows.add(new LeaderboardRowData(index + 1, entry.getUsername(), entry.getLevel(), entry.getTotalXp()));
         }
+        return rows;
     }
 
     /**
      * Configure les colonnes de la TableView avec les formatages appropriés
      */
     private void setupTableColumns() {
-        // Colonne Rang avec médailles pour le top 3
-        rankColumn.setCellValueFactory(cellData -> {
-            String rankDisplay = getRankDisplay(cellData.getValue().getRank());
-            return new javafx.beans.property.SimpleStringProperty(rankDisplay);
-        });
+        rankColumn.setCellValueFactory(cellData -> new SimpleStringProperty(getRankDisplay(cellData.getValue().getRank())));
+        usernameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
+        levelColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getLevel()));
+        totalXpColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotalXp()));
 
-        rankColumn.setCellFactory(column -> new TableCell<LeaderboardRowData, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(item);
-                    int rowIndex = getIndex();
-                    if (rowIndex < 3) {
-                        // Style pour le top 3
-                        setStyle("-fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-font-size: 14; -fx-alignment: CENTER;");
-                    } else {
-                        setStyle("-fx-text-fill: #AAAAAA; -fx-alignment: CENTER;");
-                    }
-                }
-            }
-        });
+        rankColumn.setCellFactory(column -> createStyledCell(true));
+        usernameColumn.setCellFactory(column -> createStyledCell(false));
+        levelColumn.setCellFactory(column -> createNumericCell(item -> "⭐ " + item));
+        totalXpColumn.setCellFactory(column -> createNumericCell(item -> String.format("%,d XP", item)));
+    }
 
-        // Colonne Pseudo
-        usernameColumn.setCellValueFactory(cellData ->
-            new javafx.beans.property.SimpleStringProperty(cellData.getValue().getUsername())
-        );
-
-        usernameColumn.setCellFactory(column -> new TableCell<LeaderboardRowData, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(item);
-                    int rowIndex = getIndex();
-                    if (rowIndex == 0) {
-                        // 1er place : Or
-                        setStyle("-fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-color: rgba(255, 215, 0, 0.1);");
-                    } else if (rowIndex == 1) {
-                        // 2ème place : Argent
-                        setStyle("-fx-text-fill: #C0C0C0; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-color: rgba(192, 192, 192, 0.1);");
-                    } else if (rowIndex == 2) {
-                        // 3ème place : Bronze
-                        setStyle("-fx-text-fill: #CD7F32; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-color: rgba(205, 127, 50, 0.1);");
-                    } else {
-                        // Autres joueurs
-                        setStyle("-fx-text-fill: #CCCCCC;");
-                    }
-                }
-            }
-        });
-
-        // Colonne Niveau
-        levelColumn.setCellValueFactory(cellData ->
-            new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getLevel())
-        );
-
-        levelColumn.setCellFactory(column -> new TableCell<LeaderboardRowData, Integer>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText("⭐ " + item);
-                    int rowIndex = getIndex();
-                    if (rowIndex < 3) {
-                        setStyle("-fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-alignment: CENTER;");
-                    } else {
-                        setStyle("-fx-text-fill: #AAAAAA; -fx-alignment: CENTER;");
-                    }
-                }
-            }
-        });
-
-        // Colonne XP Totale
-        totalXpColumn.setCellValueFactory(cellData ->
-            new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getTotalXp())
-        );
-
-        totalXpColumn.setCellFactory(column -> new TableCell<LeaderboardRowData, Integer>() {
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(String.format("%,d XP", item));
-                    int rowIndex = getIndex();
-                    if (rowIndex < 3) {
-                        setStyle("-fx-text-fill: #FFD700; -fx-font-weight: bold; -fx-alignment: CENTER;");
-                    } else {
-                        setStyle("-fx-text-fill: #CCCCCC; -fx-alignment: CENTER;");
-                    }
-                }
-            }
-        });
-
-        // Style de la TableView
-        leaderboardTable.setStyle(
-            "-fx-control-inner-background: #2a2a4e;" +
+    /**
+     * Applique les styles à la TableView et à ses lignes
+     */
+    private void applyTableStyles() {
+        leaderboardTable.setStyle("-fx-control-inner-background: #2a2a4e;" +
             "-fx-table-cell-border-color: #333333;" +
             "-fx-text-fill: #FFFFFF;" +
             "-fx-font-family: Arial;" +
             "-fx-border-color: #FFD700;" +
-            "-fx-border-width: 2;"
-        );
+            "-fx-border-width: 2;");
 
-        // Alternance de couleurs des lignes
         leaderboardTable.setRowFactory(tv -> new TableRow<LeaderboardRowData>() {
             @Override
             public void updateItem(LeaderboardRowData item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || getIndex() < 0) {
                     setStyle("");
+                    return;
+                }
+
+                int index = getIndex();
+                if (index == 0) {
+                    setStyle("-fx-background-color: rgba(255, 215, 0, 0.15);");
+                } else if (index == 1) {
+                    setStyle("-fx-background-color: rgba(192, 192, 192, 0.1);");
+                } else if (index == 2) {
+                    setStyle("-fx-background-color: rgba(205, 127, 50, 0.1);");
                 } else {
-                    int index = getIndex();
-                    if (index == 0) {
-                        // 1ère ligne : Or avec fond
-                        setStyle("-fx-background-color: rgba(255, 215, 0, 0.15);");
-                    } else if (index == 1) {
-                        // 2ème ligne : Argent
-                        setStyle("-fx-background-color: rgba(192, 192, 192, 0.1);");
-                    } else if (index == 2) {
-                        // 3ème ligne : Bronze
-                        setStyle("-fx-background-color: rgba(205, 127, 50, 0.1);");
-                    } else if (index % 2 == 0) {
-                        // Alternance : bleu foncé
-                        setStyle("-fx-background-color: #2a2a4e;");
-                    } else {
-                        // Alternance : bleu un peu plus clair
-                        setStyle("-fx-background-color: #353555;");
-                    }
+                    setStyle(index % 2 == 0 ? "-fx-background-color: #2a2a4e;" : "-fx-background-color: #353555;");
                 }
             }
         });
+    }
+
+    /**
+     * Crée une cellule stylisée pour les colonnes du tableau
+     */
+    private <T> TableCell<LeaderboardRowData, T> createStyledCell(boolean useTop3Highlight) {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(T item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(item.toString());
+                setStyle(getIndex() < 3 && useTop3Highlight ? TOP_STYLE : STANDARD_STYLE);
+            }
+        };
+    }
+
+    /**
+     * Crée une cellule numérique avec formatage personnalisé
+     */
+    private TableCell<LeaderboardRowData, Integer> createNumericCell(java.util.function.Function<Integer, String> formatter) {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(formatter.apply(item));
+                setStyle(getIndex() < 3 ? TOP_STYLE : STANDARD_STYLE);
+            }
+        };
     }
 
     /**
@@ -259,16 +190,12 @@ public class LeaderboardController {
     @FXML
     private void goBackHome() {
         try {
-            System.out.println("[LeaderboardController] Navigation vers l'accueil...");
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/java_royal/home-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(HOME_VIEW));
             Parent root = loader.load();
-
             Stage stage = (Stage) rootPane.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Accueil");
             stage.show();
-
-            System.out.println("[LeaderboardController] ✅ Navigation réussie vers l'accueil");
         } catch (IOException e) {
             System.err.println("[LeaderboardController] ❌ Erreur lors du retour à l'accueil: " + e.getMessage());
             e.printStackTrace();
@@ -291,21 +218,10 @@ public class LeaderboardController {
             this.totalXp = totalXp;
         }
 
-        public int getRank() {
-            return rank;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        public int getTotalXp() {
-            return totalXp;
-        }
+        public int getRank() { return rank; }
+        public String getUsername() { return username; }
+        public int getLevel() { return level; }
+        public int getTotalXp() { return totalXp; }
     }
 }
 
