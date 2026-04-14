@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.java_royal.controllers.TrueFalseController"
+           prefHeight="720.0" prefWidth="1200.0" styleClass="root">
+
+    <!-- Fond de l'arène -->
+    <ImageView fx:id="arenaBackground" fitWidth="1200" fitHeight="720" preserveRatio="false"/>
+
+    <BorderPane>
+        <!-- En-tête avec score et titre -->
+        <top>
+            <VBox alignment="CENTER" spacing="10" style="-fx-padding: 20;">
+                <Label text="DUEL DE SAVOIR" styleClass="title-label"/>
+                <Label fx:id="scoreLabel" text="Score: 0" styleClass="score-label"/>
+            </VBox>
+        </top>
+
+        <!-- Carte de la question au centre -->
+        <center>
+            <VBox fx:id="questionCard" alignment="CENTER" spacing="15" styleClass="question-card">
+                <padding>
+                    <Insets top="30" right="40" bottom="30" left="40"/>
+                </padding>
+                <Label fx:id="questionLabel" text="La question s'affichera ici..." wrapText="true"/>
+                <Label fx:id="feedbackLabel" text=""/>
+            </VBox>
+        </center>
+
+        <!-- Boutons de réponse en bas -->
+        <bottom>
+            <HBox alignment="CENTER" spacing="150" style="-fx-padding: 40;">
+                <Button fx:id="trueButton" text="VRAI" onAction="#handleAnswer" styleClass="button-true"/>
+                <Button fx:id="falseButton" text="FAUX" onAction="#handleAnswer" styleClass="button-false"/>
+            </HBox>
+        </bottom>
+        <left>
+            <VBox alignment="CENTER" style="-fx-padding: 20;">
+                <Button text="Retour" onAction="#handleBackToHome" styleClass="button-secondary"/>
+            </VBox>
+        </left>
+    </BorderPane>
+</StackPane>
+

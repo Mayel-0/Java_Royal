@@ -157,9 +157,16 @@ public class TrueFalseController {
     @FXML
     private void handleBack() {
         try {
-            Parent gameChoiceRoot = FXMLLoader.load(getClass().getResource("/com/example/java_royal/home-view.fxml"));
-            Scene scene = questionLabel.getScene();
-            scene.setRoot(gameChoiceRoot);
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/home-view.fxml"));
+            Stage stage = (Stage) questionLabel.getScene().getWindow();
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
+            stage.setTitle("Accueil");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -186,4 +193,3 @@ public class TrueFalseController {
         }
     }
 }
-

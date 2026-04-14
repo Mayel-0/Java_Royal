@@ -9,11 +9,11 @@ public class FlappyBirdApplication extends Application {
     @Override
     public void start(Stage stage) {
         FlappyBirdGame game = new FlappyBirdGame();
-        Scene scene = new Scene(game, FlappyBirdGame.WIDTH, FlappyBirdGame.HEIGHT);
+        Scene scene = new Scene(game);
 
         stage.setTitle("Clash Royale Flappy Bird");
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setMaximized(true);
         stage.show();
 
         Platform.runLater(game::requestFocus);

@@ -2,6 +2,9 @@ package com.javaroyal.games.flappy;
 
 import com.example.java_royal.service.FlappyScoreService;
 import javafx.animation.AnimationTimer;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
@@ -31,14 +34,18 @@ import java.util.List;
 import java.util.Random;
 
 public class FlappyBirdGame extends StackPane {
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+
+    private final DoubleProperty gameWidth = new SimpleDoubleProperty();
+    private final DoubleProperty gameHeight = new SimpleDoubleProperty();
+
+    private double getGameWidth() { return gameWidth.get(); }
+    private double getGameHeight() { return gameHeight.get(); }
 
     private static final double FLOOR_HEIGHT = 110;
-    private static final double GROUND_Y = HEIGHT - FLOOR_HEIGHT;
+    private double getGroundY() { return getGameHeight() - FLOOR_HEIGHT; }
     private static final double BIRD_SIZE = 108;
     private static final double BIRD_START_X = 300;
-    private static final double BIRD_START_Y = HEIGHT * 0.45;
+    private double getBirdStartY() { return getGameHeight() * 0.45; }
     private static final double GRAVITY = 980;
     private static final double FLAP_VELOCITY = -360;
     private static final double BASE_SCROLL_SPEED = 212;
@@ -93,7 +100,7 @@ public class FlappyBirdGame extends StackPane {
             loadImage("assets", "flappy-bird", "obstacles", "flappy-bird-tesla.png")
     };
 
-    private final ImageView backgroundView = createImageView(backgroundImage, WIDTH, HEIGHT, false);
+    private final ImageView backgroundView;
     private final ImageView birdView = createImageView(birdImage, BIRD_SIZE, BIRD_SIZE, false);
 
     private final Label scoreLabel = createLabel("0", 44, Color.web("#ffd54a"));
@@ -101,7 +108,7 @@ public class FlappyBirdGame extends StackPane {
     private final Label modeLabel = createLabel("Mode: Classique", 20, Color.web("#d3e8ff"));
 
     private final Pane overlay = new Pane();
-    private final Rectangle overlayBackdrop = new Rectangle(WIDTH, HEIGHT, Color.rgb(9, 14, 28, 0.76));
+    private final Rectangle overlayBackdrop;
     private final VBox overlayCard = new VBox(14);
     private final Label overlayTitle = createLabel("GAME OVER", 34, Color.web("#ffd54a"));
     private final Label overlayScore = createLabel("Score : 0", 20, Color.web("#f4f4f4"));
@@ -110,13 +117,14 @@ public class FlappyBirdGame extends StackPane {
     private final Button quitButton = createButton("Quitter");
 
     private final Pane modeMenu = new Pane();
-    private final Rectangle modeMenuBackdrop = new Rectangle(WIDTH, HEIGHT, Color.rgb(7, 11, 24, 0.76));
+    private final Rectangle modeMenuBackdrop;
     private final VBox modeMenuCard = new VBox(12);
     private final Label modeMenuTitle = createLabel("Flappy Royale", 42, Color.web("#ffd54a"));
     private final Label modeMenuSubtitle = createLabel("Choisis ton mode", 20, Color.web("#f3f0d7"));
     private final Button detenteButton = createButton("Mode Detente");
     private final Button classiqueButton = createButton("Mode Classique");
     private final Button championButton = createButton("Mode Champion");
+    private final Button backToHomeButton = createButton("Retour à l'accueil");
 
     private final AnimationTimer timer;
 
@@ -128,9 +136,24 @@ public class FlappyBirdGame extends StackPane {
     private long lastFrameNanos = -1L;
     private GameMode currentMode = GameMode.CLASSIQUE;
     private boolean nextGapHigh;
-    private double previousGapCenter = BIRD_START_Y;
+    private double previousGapCenter;
 
     public FlappyBirdGame() {
+        gameWidth.bind(this.widthProperty());
+        gameHeight.bind(this.heightProperty());
+
+        backgroundView = createImageView(backgroundImage, 0, 0, false);
+        backgroundView.fitWidthProperty().bind(gameWidth);
+        backgroundView.fitHeightProperty().bind(gameHeight);
+
+        overlayBackdrop = new Rectangle(0, 0, Color.rgb(9, 14, 28, 0));
+        overlayBackdrop.widthProperty().bind(gameWidth);
+        overlayBackdrop.heightProperty().bind(gameHeight);
+
+        modeMenuBackdrop = new Rectangle(0, 0, Color.rgb(9, 14, 28, 0));
+        modeMenuBackdrop.widthProperty().bind(gameWidth);
+        modeMenuBackdrop.heightProperty().bind(gameHeight);
+
         configurePlayfield();
         configureOverlay();
         configureModeMenu();
@@ -173,9 +196,9 @@ public class FlappyBirdGame extends StackPane {
         lastFrameNanos = -1L;
 
         birdView.setLayoutX(BIRD_START_X);
-        birdView.setLayoutY(BIRD_START_Y);
+        birdView.setLayoutY(getBirdStartY());
         birdView.setRotate(0);
-        previousGapCenter = BIRD_START_Y;
+        previousGapCenter = getBirdStartY();
         nextGapHigh = random.nextBoolean();
 
         scoreLabel.setText("0");
@@ -187,21 +210,18 @@ public class FlappyBirdGame extends StackPane {
     }
 
     private void configurePlayfield() {
-        setPrefSize(WIDTH, HEIGHT);
-        setMinSize(WIDTH, HEIGHT);
-        setMaxSize(WIDTH, HEIGHT);
-        setStyle("-fx-background-color: linear-gradient(to bottom, #16213f, #0c1022);");
+        styleProperty().bind(Bindings.concat("-fx-background-color: linear-gradient(to bottom, #16213f, #0c1022);"));
 
-        playfield.setPrefSize(WIDTH, HEIGHT);
-        playfield.setMinSize(WIDTH, HEIGHT);
-        playfield.setMaxSize(WIDTH, HEIGHT);
+        playfield.prefWidthProperty().bind(gameWidth);
+        playfield.prefHeightProperty().bind(gameHeight);
 
         backgroundView.setViewOrder(20);
         birdView.setLayoutX(BIRD_START_X);
-        birdView.setLayoutY(BIRD_START_Y);
+        // On n'utilise plus de binding sur layoutY pour éviter le conflit avec setLayoutY dans showModeMenu
+        birdView.setLayoutY(getBirdStartY());
         birdView.setViewOrder(-2);
 
-        scoreLabel.setLayoutX(WIDTH - 130);
+        scoreLabel.layoutXProperty().bind(gameWidth.subtract(130));
         scoreLabel.setLayoutY(18);
         scoreLabel.setViewOrder(-3);
 
@@ -210,7 +230,7 @@ public class FlappyBirdGame extends StackPane {
         modeLabel.setViewOrder(-3);
 
         helpLabel.setLayoutX(16);
-        helpLabel.setLayoutY(HEIGHT - 46);
+        helpLabel.layoutYProperty().bind(gameHeight.subtract(46));
         helpLabel.setViewOrder(-3);
 
         playfield.getChildren().addAll(backgroundView, birdView, scoreLabel, modeLabel, helpLabel);
@@ -225,7 +245,8 @@ public class FlappyBirdGame extends StackPane {
 
         overlayCard.setAlignment(Pos.CENTER);
         overlayCard.setPrefSize(380, 310);
-        overlayCard.resizeRelocate((WIDTH - 380) / 2.0, (HEIGHT - 310) / 2.0, 380, 310);
+        overlayCard.layoutXProperty().bind(gameWidth.subtract(380).divide(2));
+        overlayCard.layoutYProperty().bind(gameHeight.subtract(310).divide(2));
         overlayCard.setStyle(
                 "-fx-background-color: rgba(22, 28, 51, 0.95);" +
                 "-fx-background-radius: 24;" +
@@ -241,9 +262,9 @@ public class FlappyBirdGame extends StackPane {
         quitButton.setMaxWidth(Double.MAX_VALUE);
         restartButton.setOnAction(event -> restartGame());
         changeModeButton.setOnAction(event -> showModeMenu());
-        quitButton.setOnAction(event -> javafx.application.Platform.exit());
+        quitButton.setOnAction(event -> backToHome());
 
-        overlayCard.getChildren().addAll(overlayTitle, overlayScore, restartButton, changeModeButton, quitButton);
+        overlayCard.getChildren().addAll(overlayTitle, overlayScore);
         overlay.getChildren().addAll(overlayBackdrop, overlayCard);
         overlay.setViewOrder(-20);
 
@@ -251,14 +272,11 @@ public class FlappyBirdGame extends StackPane {
     }
 
     private void configureModeMenu() {
-        modeMenuBackdrop.setMouseTransparent(true);
-        modeMenuBackdrop.setVisible(false);
-        modeMenuBackdrop.setViewOrder(-30);
-
         modeMenuCard.setAlignment(Pos.CENTER);
         modeMenuCard.setPadding(new Insets(28));
-        modeMenuCard.setPrefSize(460, 390);
-        modeMenuCard.resizeRelocate((WIDTH - 460) / 2.0, (HEIGHT - 390) / 2.0, 460, 390);
+        modeMenuCard.setPrefSize(460, 450);
+        modeMenuCard.layoutXProperty().bind(gameWidth.subtract(460).divide(2));
+        modeMenuCard.layoutYProperty().bind(gameHeight.subtract(450).divide(2));
         modeMenuCard.setStyle(
                 "-fx-background-color: rgba(12, 19, 36, 0.95);" +
                 "-fx-background-radius: 26;" +
@@ -271,17 +289,28 @@ public class FlappyBirdGame extends StackPane {
         detenteButton.setMaxWidth(Double.MAX_VALUE);
         classiqueButton.setMaxWidth(Double.MAX_VALUE);
         championButton.setMaxWidth(Double.MAX_VALUE);
+        backToHomeButton.setMaxWidth(Double.MAX_VALUE);
+        backToHomeButton.setStyle(
+            "-fx-background-color: linear-gradient(to bottom, #6c757d, #5a6268);" +
+            "-fx-text-fill: white;" +
+            "-fx-background-radius: 16;" +
+            "-fx-padding: 10 18 10 18;" +
+            "-fx-cursor: hand;"
+        );
+
 
         detenteButton.setOnAction(event -> startWithMode(GameMode.DETENTE));
         classiqueButton.setOnAction(event -> startWithMode(GameMode.CLASSIQUE));
         championButton.setOnAction(event -> startWithMode(GameMode.CHAMPION));
+        backToHomeButton.setOnAction(event -> backToHome());
 
         modeMenuCard.getChildren().addAll(
                 modeMenuTitle,
                 modeMenuSubtitle,
                 detenteButton,
                 classiqueButton,
-                championButton
+                championButton,
+                backToHomeButton
         );
 
         modeMenu.getChildren().addAll(modeMenuBackdrop, modeMenuCard);
@@ -294,6 +323,10 @@ public class FlappyBirdGame extends StackPane {
         setFocusTraversable(true);
 
         setOnMouseClicked(event -> {
+            // Ignore les clics si un menu est visible pour ne pas interférer avec les boutons.
+            if (overlay.isVisible() || modeMenu.isVisible()) {
+                return;
+            }
             requestFocus();
             if (event.getButton() == MouseButton.PRIMARY) {
                 handleAction();
@@ -344,9 +377,9 @@ public class FlappyBirdGame extends StackPane {
         lastFrameNanos = -1L;
 
         birdView.setLayoutX(BIRD_START_X);
-        birdView.setLayoutY(BIRD_START_Y);
+        birdView.setLayoutY(getBirdStartY());
         birdView.setRotate(0);
-        previousGapCenter = BIRD_START_Y;
+        previousGapCenter = getBirdStartY();
         nextGapHigh = random.nextBoolean();
 
         scoreLabel.setText("0");
@@ -374,7 +407,7 @@ public class FlappyBirdGame extends StackPane {
         birdView.setLayoutY(birdView.getLayoutY() + birdVelocityY * deltaSeconds);
         birdView.setRotate(Math.max(-28, Math.min(90, birdVelocityY / 5.0)));
 
-        if (birdView.getLayoutY() < 0 || birdView.getLayoutY() + BIRD_SIZE > GROUND_Y) {
+        if (birdView.getLayoutY() < 0 || birdView.getLayoutY() + BIRD_SIZE > getGroundY()) {
             triggerGameOver();
             return;
         }
@@ -420,14 +453,52 @@ public class FlappyBirdGame extends StackPane {
 
         try {
             new FlappyScoreService().saveScore((int) score, currentMode.title);
+            awardXpOnGameOver((int) score);
         } catch (Exception ignored) {
             // Ignore save failures to avoid blocking game over.
         }
     }
 
+    private void awardXpOnGameOver(int finalScore) {
+        if (finalScore <= 0) return;
+
+        int xpGained = finalScore * 5; // 5 XP par point de score
+
+        try {
+            com.example.java_royal.session.UserSession session = com.example.java_royal.session.UserSession.getInstance();
+            if (session.getId() == 0) {
+                System.out.println("[FlappyBirdGame] Session utilisateur non trouvée, impossible d'ajouter l'XP.");
+                return;
+            }
+
+            int currentXp = session.getCurrentXp();
+            int currentLevel = session.getCurrentLevel();
+            int threshold = currentLevel * 100;
+
+            int updatedXp = currentXp + xpGained;
+            int updatedLevel = currentLevel;
+
+            while (updatedXp >= threshold) {
+                updatedXp -= threshold;
+                updatedLevel++;
+                threshold = updatedLevel * 100;
+            }
+
+            com.example.java_royal.service.UserService.updateUserXp(session.getId(), updatedXp, updatedLevel);
+            session.setCurrentLevel(updatedLevel);
+            session.setCurrentXp(updatedXp);
+
+            System.out.println("[FlappyBirdGame] ✅ " + xpGained + " XP ajoutés. Nouveau statut : Niveau " + updatedLevel + ", " + updatedXp + " XP.");
+
+        } catch (Exception e) {
+            System.err.println("[FlappyBirdGame] ❌ Erreur lors de la mise à jour de l'XP : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void spawnObstaclePair() {
         Image obstacleImage = obstacleImages[random.nextInt(obstacleImages.length)];
-        double startX = WIDTH + 35;
+        double startX = getGameWidth() + 35;
 
         ObstaclePair pair;
         if (shouldSpawnBottomGiant()) {
@@ -439,6 +510,24 @@ public class FlappyBirdGame extends StackPane {
 
         obstacles.add(pair);
         pair.addTo(playfield);
+    }
+
+    private void backToHome() {
+        try {
+            timer.stop();
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/com/example/java_royal/home-view.fxml"));
+            javafx.stage.Stage stage = (javafx.stage.Stage) getScene().getWindow();
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            javafx.scene.Scene scene = new javafx.scene.Scene(root, width, height);
+            stage.setScene(scene);
+            stage.setTitle("Accueil");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean shouldSpawnBottomGiant() {
@@ -460,7 +549,7 @@ public class FlappyBirdGame extends StackPane {
 
     private double computeNextGapCenter(double gapSize) {
         double minCenter = TOP_MARGIN + gapSize / 2.0;
-        double maxCenter = GROUND_Y - BOTTOM_MARGIN - gapSize / 2.0;
+        double maxCenter = getGroundY() - BOTTOM_MARGIN - gapSize / 2.0;
         double span = maxCenter - minCenter;
 
         double highStart = minCenter + span * 0.08;
@@ -613,7 +702,7 @@ public class FlappyBirdGame extends StackPane {
         private ObstaclePair(Image obstacleImage, double startX, double gapCenter, double gapSize) {
             double topHeight = Math.max(48, gapCenter - gapSize / 2.0);
             double bottomY = gapCenter + gapSize / 2.0;
-            double bottomHeight = Math.max(48, GROUND_Y - bottomY);
+            double bottomHeight = Math.max(48, getGroundY() - bottomY);
 
             topView = createImageView(obstacleImage, OBSTACLE_WIDTH, topHeight, false);
             topView.setLayoutX(startX);
@@ -629,8 +718,8 @@ public class FlappyBirdGame extends StackPane {
 
         private ObstaclePair(Image obstacleImage, double startX, double gapSize, boolean giantBottom) {
             double topFreeHeight = TOP_MARGIN + gapSize * 0.92;
-            double bottomY = Math.min(GROUND_Y - 64, topFreeHeight);
-            double bottomHeight = Math.max(140, GROUND_Y - bottomY);
+            double bottomY = Math.min(getGroundY() - 64, topFreeHeight);
+            double bottomHeight = Math.max(140, getGroundY() - bottomY);
 
             topView = null;
             bottomView = createImageView(obstacleImage, OBSTACLE_WIDTH, bottomHeight, false);

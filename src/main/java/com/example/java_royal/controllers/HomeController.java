@@ -133,7 +133,12 @@ public class HomeController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/memory-view.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root, 980, 760));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Memory - Clash Royale");
             stage.show();
         } catch (IOException e) {
@@ -160,7 +165,12 @@ public class HomeController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/javaroyal/games/t_or_f/true-false-view.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root, 800, 600));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("True or False - Clash Royale");
             stage.show();
         } catch (IOException e) {
@@ -174,7 +184,12 @@ public class HomeController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/pendu-view.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root, 1080, 760));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Pendu - Clash Royale");
             stage.show();
         } catch (IOException e) {
@@ -187,7 +202,12 @@ public class HomeController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/profile-view.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Modifier Profil");
             stage.show();
         } catch (IOException e) {
@@ -221,7 +241,12 @@ public class HomeController {
             Parent root = loader.load();
 
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Sudoku");
             stage.show();
         } catch (IOException e) {
@@ -236,7 +261,12 @@ public class HomeController {
             UserSession.getInstance().clear();
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/start-view.fxml"));
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Java Royal");
             stage.show();
         } catch (IOException e) {

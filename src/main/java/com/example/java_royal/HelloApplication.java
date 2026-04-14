@@ -24,9 +24,10 @@ public class HelloApplication extends Application {
         }
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/example/java_royal/start-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 720);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Bienvenue sur Java Royal");
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 }

@@ -34,39 +34,37 @@ public class HelloController {
 
     @FXML
     private void handleLogin() {
-        String identifier = safeTrim(usernameField);
-        String password = safeText(passwordField);
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-        if (identifier.isBlank() || password.isBlank()) {
-            showMessage("Veuillez renseigner le nom d'utilisateur et le mot de passe.");
+        if (username.isEmpty() || password.isEmpty()) {
+            showMessage("Le nom d'utilisateur et le mot de passe sont requis.");
             return;
         }
 
         try {
-            System.out.println("[HelloController] Tentative login avec: " + identifier);
-            User user = UserService.authenticate(identifier, password);
+            User user = UserService.authenticate(username, password);
 
             if (user == null) {
-                showMessage("Identifiants invalides.");
-                System.err.println("[HelloController] ❌ Authentification échouée pour: " + identifier);
+                showMessage("Nom d'utilisateur ou mot de passe incorrect.");
                 return;
             }
 
+            SessionManager.getInstance().setCurrentUser(user);
             System.out.println("[HelloController] ✅ Authentification réussie: " + user);
-            UserSession.getInstance().update(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getCurrentLevel(),
-                user.getCurrentXp()
-            );
 
+            // Stocke les informations de l'utilisateur dans la session
+            UserSession session = UserSession.getInstance();
+            session.setId(user.getId());
+            session.setUsername(user.getUsername());
+            session.setEmail(user.getEmail());
+            session.setCurrentLevel(user.getCurrentLevel());
+            session.setCurrentXp(user.getCurrentXp());
             System.out.println("[HelloController] UserSession mise à jour - ID: " + UserSession.getInstance().getId());
             try {
-                loadView(user.getCurrentLevel() == 1 ? INTRODUCTION_VIEW : HOME_VIEW,
-                    user.getCurrentLevel() == 1 ? "Introduction" : "Accueil");
+                loadView(INTRODUCTION_VIEW, "Introduction");
             } catch (IOException e) {
-                showMessage("Impossible d'ouvrir la page demandée.");
+                showMessage("Impossible d'ouvrir la page d'introduction.");
                 e.printStackTrace();
             }
         } catch (SQLException e) {

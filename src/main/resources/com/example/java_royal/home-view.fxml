@@ -57,22 +57,21 @@
 
     <!-- BOTTOM : Boutons d'action -->
     <bottom>
-        <HBox spacing="15" alignment="CENTER" style="-fx-padding: 20; -fx-background-color: rgba(31, 111, 235, 0.95); -fx-border-color: #FFD700; -fx-border-width: 3 0 0 0; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, -3);">
-
-            <Button text="Démarrer un Mini-jeu" prefWidth="180" prefHeight="45"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #28a745 0%, #1e7e34 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
-
-            <Button text="Sudoku" prefWidth="180" prefHeight="45" onAction="#handleSudoku"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
-
-            <Button text="Flappy Bird" prefWidth="180" prefHeight="45" onAction="#handleOpenFlappyBird"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #ff9f1c 0%, #ff6f00 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
-
-            <Button text="True or False" prefWidth="180" prefHeight="45" onAction="#handleOpenTrueOrFalse"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #fd7e14 0%, #e85a00 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20; -fx-background-color: rgba(31, 111, 235, 0.95); -fx-border-color: #FFD700; -fx-border-width: 3 0 0 0; -fx-effect: dropshadow(gaussian, #000000, 5, 0.7, 0, -3);">
 
             <Button text="Pendu" prefWidth="180" prefHeight="45" onAction="#handleOpenPendu"
-                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #6f42c1 0%, #563d7c 100%); -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Sudoku" prefWidth="180" prefHeight="45" onAction="#handleSudoku"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="Flappy Bird" prefWidth="180" prefHeight="45" onAction="#handleOpenFlappyBird"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <Button text="True or False" prefWidth="180" prefHeight="45" onAction="#handleOpenTrueOrFalse"
+                    style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: yellow; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>
+
+            <HBox HBox.hgrow="ALWAYS" />
 
             <Button text="Classement" prefWidth="180" prefHeight="45" onAction="#handleLeaderboard"
                     style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); -fx-text-fill: #333333; -fx-border-radius: 5; -fx-background-radius: 5; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, #000000, 5, 0.5, 0, 2);"/>

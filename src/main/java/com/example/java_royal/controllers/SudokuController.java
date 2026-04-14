@@ -81,7 +81,12 @@ public class SudokuController {
             Parent root = loader.load();
 
             Stage stage = (Stage) sudokuGrid.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Accueil");
             stage.show();
         } catch (IOException e) {

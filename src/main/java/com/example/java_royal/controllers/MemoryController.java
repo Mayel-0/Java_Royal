@@ -259,7 +259,12 @@ public class MemoryController {
             }
             Parent root = FXMLLoader.load(getClass().getResource("/com/example/java_royal/home-view.fxml"));
             Stage stage = (Stage) rootPane.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double width = stage.getWidth();
+            double height = stage.getHeight();
+
+            Scene scene = new Scene(root, width, height);
+            stage.setScene(scene);
             stage.setTitle("Accueil");
             stage.show();
         } catch (IOException e) {
@@ -270,5 +275,3 @@ public class MemoryController {
     private record CardNode(Card card, StackPane container, ImageView backView, ImageView frontView) {
     }
 }
-
-
