@@ -88,7 +88,10 @@ public class HangmanController {
     private Button hintButton;
 
     @FXML
-    private ImageView hangmanImageView;
+    private ImageView arenaImageView;
+
+    @FXML
+    private Region dangerOverlay;
 
     private final Random random = new Random();
     private final HangmanWordBank wordBank = new HangmanWordBank();
@@ -109,8 +112,7 @@ public class HangmanController {
         applyCss();
         configureDifficultyChoice();
         createKeyboard();
-        loadHangmanImage();
-        applyBackgroundImage();
+        loadArenaImage();
         startNewRound();
 
         Platform.runLater(this::bindPhysicalKeyboard);
@@ -290,7 +292,9 @@ public class HangmanController {
 
         double progress = (double) (maxLives - remainingLives) / maxLives;
         hangmanProgressBar.setProgress(progress);
-        hangmanImageView.setOpacity(0.25 + (progress * 0.75));
+        if (dangerOverlay != null) {
+            dangerOverlay.setOpacity(Math.min(0.72, progress * 0.92));
+        }
 
         comboLabel.setText("Combo: " + engine.getCombo());
         bestScoreLabel.setText("Meilleur score: " + bestScore);
@@ -331,35 +335,23 @@ public class HangmanController {
         }
     }
 
-    private void loadHangmanImage() {
-        Path imagePath = Paths.get("assets", "pendu", "pendu-bourreau.png");
-        if (!Files.exists(imagePath)) {
-            statusLabel.setText("Image pendu-bourreau.png introuvable dans assets/pendu.");
+    private void loadArenaImage() {
+        Path arenaPath = Paths.get("assets", "pendu", "pendu-all.png");
+        if (!Files.exists(arenaPath)) {
+            statusLabel.setText("Image pendu-all.png introuvable.");
             return;
         }
 
-        try (InputStream inputStream = Files.newInputStream(imagePath)) {
+        try (InputStream inputStream = Files.newInputStream(arenaPath)) {
             Image image = new Image(inputStream);
-            hangmanImageView.setImage(image);
-            hangmanImageView.setOpacity(0.25);
+            arenaImageView.setImage(image);
         } catch (IOException exception) {
-            statusLabel.setText("Erreur lors du chargement de l'image du pendu.");
-        }
-    }
-
-    private void applyBackgroundImage() {
-        Path backgroundPath = Paths.get("assets", "pendu", "pendu-background.png");
-        if (!Files.exists(backgroundPath)) {
-            return;
+            statusLabel.setText("Erreur lors du chargement de pendu-all.png.");
         }
 
-        String uri = backgroundPath.toAbsolutePath().toUri().toString();
-        rootPane.setStyle(
-                "-fx-background-image: url('" + uri + "');"
-                        + "-fx-background-size: cover;"
-                        + "-fx-background-position: center center;"
-                        + "-fx-background-repeat: no-repeat;"
-        );
+        if (dangerOverlay != null) {
+            dangerOverlay.setOpacity(0.0);
+        }
     }
 
     @FXML
